@@ -58,6 +58,6 @@ Secondly, let us then run `netstat -n` to see a list of the connections and find
 
 ![](./images/netstat_n.png)
 
-The first column we can see the protocol being used, `TCP`. The second column is the local address, which means our computers address. Note that it shows a colon, with the port number 54607. This tells us we are using a dynamically assigned port number. The foreign address here is in the third column, `142.250.66.206` being the IP address of `google.com` with the port number being `433`. The port number is `433`, which tells us we are connecting to `google.com` using HTTPS.
+The first column we can see the protocol being used, `TCP`. The second column is the local address, which means our computers address. Note that it shows a colon, with the port number 54507. This tells us we are using a dynamically assigned port number. The foreign address here is in the third column, `142.250.66.206` being the IP address of `google.com` with the port number being `433`. The port number is `433`, which tells us we are connecting to `google.com` using HTTPS.
 
 We can also manually change the port we connect to. For example, on the web browser URL we can instead type `google.com:53`, 53 being the port number for DNS, the site now cannot be reached and you will be shown an error and given an `This site can't be reached` page. This is happening because the client is not sending the request to the web application port 80 or 443. In fact we are trying to send the request to a DNS service that isn't running on this web server.
