@@ -18,7 +18,7 @@ It is not uncommon to have multiple Python versions installed on a single machin
 
 Suppose we then start a new project, where we want to use Python 3.9. We create a virtual environment called `.env` and activiate it. Typing `python` in a shell starts the 3.9 interpreter, **BUT** if you type `pip install <some-package>`, then, what version of `pip` is used? Is it the pip for the default version, i.e. the one in my `WindowsApps` directory from before, or the Python version within the virtual environment?
 
-An easy way to get around that ambiguity is simply to use `python -m pip install <some-package>`. The `-m` flag makes sure that you are using the `pip` that is tied to the active Python executeable. It is good practice to always use `-m`, even if you have just one global version of Python installed from which you create virtual environments.
+An easy way to get around that ambiguity is simply to use `python -m pip install <some-package>`. The `-m` flag makes sure that you are using the `pip` **that is tied to the active Python executeable**. It is good practice to **always** use `-m`, even if you have just one global version of Python installed from which you create virtual environments.
 
 # Site-packages
 
