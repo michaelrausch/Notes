@@ -2,7 +2,7 @@
 
 Let us begin from the beginning. When we type inside the console `python hello_world.py`, where is the `python` executeable found to run `hello_world.py`? Well, your "default" version is the **first one appearing in your path**. The so-called path is a list of directories your system searches for executeables. When you type a command, like `python`, this list is traversed from the first directory to the last, searching for a filename that matches the command you typed. If the filename/command is found, the matched file gets executed **without** taking into account potential later matches. This behaviour is by design. On UNIX systems the path environment variable is called `$PATH`, while on Windows system it's referred to as `%PATH%`
 
-![](./images/../../images/environment_variables.png)
+![](./images/environment_variables.png)
 
 To find the *path* search for "environment variables" in Windows and click "Edit environment variables". The *path* variable will contain a list of directories, here we can add rows, where each row is a directory location. In my example, I have a `python.exe` inside of `%USERPROFILE\AppData\Local\Microsoft\WindowsApps`, this means when I run `python hello_world.py`, I am using the `python.exe` found in that directory.
 
