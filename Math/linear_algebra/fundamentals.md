@@ -8,4 +8,4 @@ What defines a given vector is its **length and the direction it is pointing in*
 
 ![](./images/la_2.png)
 
-In linear algebra, it is **almost always** the case that your vector will be rooted at the **origin**. The coordinates of a vector is a pair of numbers that basically give instructions for how to get from tail of that vector to the head (tip), generally represented as $\begin{bmatrix}X\\Y\end{bmatrix}$.
+In linear algebra, it is **almost always** the case that your vector will be rooted at the **origin**. The coordinates of a vector is a pair of numbers that basically give instructions for how to get from tail of that vector to the head (tip), generally represented as $\begin{bmatrix}X\\\\Y\end{bmatrix}$.
