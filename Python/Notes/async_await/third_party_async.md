@@ -1,6 +1,6 @@
 # Asynchronous code $3^{rd}$ party libraries
 
-The main purpose of AsyncIO is to improve performance around asynchronous programming with the utilization of `async` and `await`. Continuing on my discussion inside of `threads/io_improvements.md`, it was understood that `isort.check_file` had IO Bound issues, therefore, could `asyncio` be useful to improve performance?
+The main purpose of AsyncIO is to improve performance of IO Bound software by using asynchronous programming with the utilization of the `async` and `await` keywords. Continuing on my discussion inside of `threads/io_improvements.md`, it was understood that `isort.check_file` had IO Bound issues, therefore, could `asyncio` be useful to improve performance by using asynchronous programming when reading/writing to files?
 
 We have the function `isort.check_file` and we need this to behave in an asynchronous way. So, let us embed this inside a `async`.
 
