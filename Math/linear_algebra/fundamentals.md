@@ -48,9 +48,9 @@ But you cannot add two times, 3:15am + noon = ??
 Let's carry the analogy over to now talk about space:
 
 * (3, 5), (-2.25, 7), (0, -1) are points
-* $$\begin{bmatrix}4\\-5\end{bmatrix}$$ is a vector, meaning 4 units east then 5 south (Assuming North is up)
+* $$\begin{equation}\begin{bmatrix}X \\ Y\end{bmatrix}\end{equation}$$ is a vector, meaning 4 units east then 5 south (Assuming North is up)
 
-$$
+$
 \begin{equation}
 \begin{pmatrix}
   1       & x^1_0   & x^2_0   & \cdots  & x^{degree}_0  \\
@@ -59,5 +59,4 @@ $$
   1       & x^1_n   & x^2_n   & \cdots  & x^{degree}_n  \\
 \end{pmatrix}
 \end{equation}
-$$
-
+$
