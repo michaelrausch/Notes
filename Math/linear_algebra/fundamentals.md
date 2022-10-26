@@ -51,11 +51,9 @@ Let's carry the analogy over to now talk about space:
 * is a vector, meaning 4 units east then 5 south (Assuming North is up)
   
 
-$\\begin{equation}
-\\begin{bmatrix}
+$\\begin{equation}\\begin{bmatrix}
 1 & 2 \\\\ 3 & 4 \\\\ 
-\\end{bmatrix}
-\\end{equation}$
+\\end{bmatrix}\\end{equation}$
 
 
 $$
