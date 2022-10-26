@@ -52,11 +52,11 @@ Let's carry the analogy over to now talk about space:
   
 
 $
-\begin{equation}
-\begin{bmatrix}
-1 & 2 \\ 3 & 4 \\ 
-\end{bmatrix}
-\end{equation}
+\\begin{equation}
+\\begin{bmatrix}
+1 & 2 \\\\ 3 & 4 \\\\ 
+\\end{bmatrix}
+\\end{equation}
 $
 
 
