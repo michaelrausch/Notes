@@ -54,7 +54,7 @@ Let's carry the analogy over to now talk about space:
 $$
 \begin{equation}
 \begin{bmatrix}
-X \\ Y
+X \\ Y \\ 
 \end{bmatrix}
 \end{equation}
 $$
