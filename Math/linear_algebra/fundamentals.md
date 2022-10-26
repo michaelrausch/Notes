@@ -53,11 +53,13 @@ Let's carry the analogy over to now talk about space:
 
 $\\begin{bmatrix} a \\\\ b \\end{bmatrix}$
 
-$
+$$
+\begin{equation}
 \begin{pmatrix}
   1       & x^1_0   & x^2_0   & \cdots  & x^{degree}_0  \\
   1       & x^1_1   & x^2_1   & \cdots  & x^{degree}_1  \\
   \vdots  & \vdots  & \vdots  & \ddots  & \vdots \\
   1       & x^1_n   & x^2_n   & \cdots  & x^{degree}_n  \\
 \end{pmatrix}
-$
+\end{equation}
+$$
