@@ -50,5 +50,4 @@ Let's carry the analogy over to now talk about space: test
 (3, 5), (-2.25, 7), (0, -1) are points
 ```math 
 \begin{bmatrix}X\\Y\end{bmatrix}
-``` 
-is a vector, meaning 4 units east then 5 south (Assuming North is up)
+``` is a vector, meaning 4 units east then 5 south (Assuming North is up)
