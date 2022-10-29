@@ -8,3 +8,5 @@ The purpose of this repository is to store my personal notes as a quick referenc
 
 ## Structure
 For more general note-taking, a markdown file is used, otherwise, the required Programming Language file format is used for displaying Code. The construction of diagrams is used by using the markdown extension called [Mermaid](https://mermaid-js.github.io/mermaid/#/), which is supported by Github.
+
+Mathjax was utilized for standard mathematical equations but inline vectors were shown to be not possible, instead I am writing these files using LaTeX and storing them using overleaf. To display them in Github I need to export them into pdf format and upload the file here, to finally be rendered nicely.
