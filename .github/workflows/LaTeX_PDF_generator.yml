@@ -12,7 +12,7 @@ jobs:
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v2
         with:
-            root_file: "Math/linear_algebra/fundamentals.tex"
+            root_file: "*/*.tex"
 
       - name: Upload PDF file
         uses: actions/upload-artifact@v3
