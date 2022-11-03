@@ -26,14 +26,14 @@ parser.add_argument('-w', '--width',
                     type=int, 
                     required=True, 
                     help='Width of rectangle')
-# -h is required for help, therefore -H is used..
+# -h is required for help, therefore -H is used.
 parser.add_argument('-H', '--height', 
                     type=int, 
                     required=True, 
                     help='Height of rectangle')
 
 """
-action=store_store automatically creates a default value of `False`
+action=store_true automatically creates a default value of `False`
 
 With mutually exclusive groups, only one can be specified at a time,
 i.e. `python arg_parser.py -w 10 -H 10 -q -v` will throw an error.
