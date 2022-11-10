@@ -1,0 +1,73 @@
+\documentclass[12pt]{article}
+
+\title{Dot Product}
+\date{}
+
+\usepackage{graphicx} % LaTeX package to import graphics
+\graphicspath{{Math/linear_algebra/images}} % Configuring the graphicx package
+
+\usepackage[a4paper, margin=1.5cm, footskip=.5cm]{geometry}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{parskip}
+\usepackage{tocloft}
+\usepackage{float}
+
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % Adds dots to TOC
+\setcounter{secnumdepth}{0} % sections are level 1
+
+
+% Set all sections to have centered headings
+\usepackage{titlesec}
+\titleformat{\section}  % which section command to format
+    {\centering\fontsize{17}{19}\bfseries} % format for whole line
+    {\thesection} % how to show number
+    {1em} % space between number and text
+    {} % formatting for just the text
+    [] % formatting for after the text
+% --------------------------------------------
+
+
+% Macro to reduce code repetition
+%
+% \NewDocumentCommand{\macroname}{argument specifiers}{%
+%     expansion code
+% }
+% 
+% "m" is a standard mandatory argument, which can be a single token or multiple tokens surrounded by {}
+% "o" is a standard optional argument, it will supply -NoValue- marker if not given
+% "O", given as O{(default)}, is like "o" but returns default if no valus is given
+% "v" reads an argument ‘verbatim’
+
+\NewDocumentCommand{\Vector}{ m m}{%
+    \ensuremath{%
+        \begin{bmatrix}
+                #1 \\ 
+                #2
+        \end{bmatrix}
+    }
+}
+
+\NewDocumentCommand{\VectorThree}{ m m m}{%
+    \ensuremath{%
+        \begin{bmatrix}
+                #1 \\ 
+                #2 \\
+                #3 
+        \end{bmatrix}
+    }
+}
+
+\NewDocumentCommand{\InlineFigure}{ O{0.70\textwidth} O{0.35\textwidth} m m v }{%
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=#1, height=#2]{#5}
+        \caption{#3}
+        \label{#4}
+    \end{figure}
+}
+\begin{document}
+    \maketitle
+
+
+\end{document}
