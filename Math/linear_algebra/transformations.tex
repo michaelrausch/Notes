@@ -183,5 +183,16 @@ When we apply this transformation to get some vector \Vector{x}{y}, what do you 
 
 \InlineFigure{Basis vector multiplication}{fig11}{transformations_11.png}
 
+\section{The determinant}
+
+One thing that turns out to be surprisingly useful for understanding a given transformation is to measure exactly how much a given transformation stretches and squishes things. More specifically, to measure the factor by which the area of a given region increases or decreases.
+
+\InlineFigure{Area scaling}{fig11}{determinant_1.png}
+
+For example, the matrix $\begin{bmatrix} 3 & 0 \\ 0 & 2\end{bmatrix}$ scales $\hat{i}$ by a factor of 3 and scales $\hat{j}$ by a factor of 2. How can we tell the factor by which space gets stretched? Focus your attention on the 1 x 1 square whose bottom sits on $\hat{i}$ and whose left side sits on $\hat{j}$. After the transformation, this turns into a 2 x 3 rectangle.
+
+\InlineFigure{Area scaling}{fig12}{determinant_2.png}
+
+Since this region started with area of size 1, and ended up with an area with 6, we can say the linear transformation has scaled its area by a factor of 6. This special scaling factor, the factor by which a linear transformation changes the area is called \textbf{the determinant} of that transformation.
 
 \end{document}
