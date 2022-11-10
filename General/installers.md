@@ -11,3 +11,5 @@ Let us take an example of what is happening by installing the [Intel oneAPI runt
 ![](./images/intel_oneAPI.PNG)
 
 Performing the installation process, the first thing might be to notice that we now have additional **environment variable**. Under System Variables, the key has the value of `INTEL_DEV_REDIST` and the value is `C:\Program Files (x86)\Common Files\Intel\Shared Libraries\`. Now, looking inside this directory we can find all of the files that were extracted and moved here during the installation process. This process only needs to be once and is shared, meaning other software will not reinstall the runtime again and instead simply check for the existing environment variable, therefore saving space.
+
+![](./images/intel_oneAPI_installed.PNG)
