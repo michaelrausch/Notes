@@ -71,12 +71,71 @@
 
     \tableofcontents
 
+\newpage
+
 \section{Normal Vector}
 
 \InlineFigure{Normal Vector}{fig1}{normal_vector.png}
 
+The normal vector, often simply called the \textit{normal} to a surface is a vector which is perpendicular to the surface at a given point. When normals are considered on closed surfaces, the inward-pointing normal (pointing towards the interior of the surface) and outward-pointing normal are usually distinguished.
+
+The unit vector obtained by normalizing the normal vector (i.e. dividing a nonzero normal vector by its vector norm) is the unit normal vector, often known simply as the \textit{unit normal}. Care should be taken to not confuse the terms \textit{vector norm} (Length of vector), \textit{normal vector} (Perpendicular vector) and \textit{normalized vector} (Unit-length vector).
+
+The normal vector is commonly denoted $N$, with a hat sometimes (but not always) added ($\hat{N}$) to explicitly indicate a unit normal vector.
+
+
 \section{Normalized Vector}
 
+The normalized vector of $X$ is a vector in the same direction but with norm (length) of 1. It is denoted $\hat{X}$ and given by;
+
+\begin{center}
+    $\hat{X} = \frac{X}{\vert X \vert}$
+\end{center}
+
+Where $\vert X \vert$ is the norm of $X$. It is also called a \textbf{unit vector}.
+
 \section{Vector Norm}
+
+In mathematics, the \textit{norm} of a vector is its \textbf{length}. A vector is a mathematical object that has a size, called the \textbf{magnitude} and a direction. For the real numbers, the only norm is the absolute value. For spaces with more dimensions, the norm can be any function \textit{p} with the following three properties:
+
+\begin{enumerate}
+    \item Scales for real numbers \textit{a}, that is, $p(ax) = \vert a \vert p(x)$
+    \item Function of sum is less than sum of functions, that is, $p(x + y) \leq p(x) + p(y)$ (also known as the triangle equality)
+    \item $p(x) = 0$ if and only if $x = 0$
+\end{enumerate}
+
+For a vector $x$, the associated norm is written as $\| x \|_p$ or $L_p$ where $p$ is some value. The value of the norm of $x$ with some length $N$ is as follows:
+
+\begin{center}
+    $\| x \|_p$ = $\sqrt[p]{x^p_1 + x^p_2 + ... + x^p_N}$
+\end{center}
+
+The most common usage of this is the Euclidean norm, also called the standard distance formula.
+
+e.g. 
+
+\begin{enumerate}
+    \item The one-norm is the sum of absolute values: $\| X \|_1$ = $\vert x_1 \vert$ + $\vert x_2 \vert$ + $...$ + $\vert x_N \vert$. This is like finding the distance from one place on a grid to another by summing together the distances in all directions the grid goes; see Manhatten Distance.
+    
+    \InlineFigure{Manhatten Distance}{fig2}{manhatten_distance.png}
+    
+    $L_1$, written as $\| X \|_1$, is defined as $\| X \|_1$ = $\sum\limits_{i=1}^{n} \vert X_i \vert$
+    
+    \item Euclidean norm (also called L2-norm) is the sum of the squares of the values:
+    
+    \begin{center}
+        $\| x \|_2$ = $\sqrt[p]{x^2_1 + x^2_2 + ... + x^2_N}$
+    \end{center}
+    
+    \InlineFigure{Euclidean Norm}{fig3}{euclidean_norm.png}
+    
+    A visual difference between the Euclidean Norm and the Manhatten Norm is shown in figure 4.
+    
+    \InlineFigure{Euclidean vs Manhatten}{fig4}{euclidean_vs_manhatten.png}
+    
+    \item Maximum norm is the maximum absolute value: $\| X \|_\infty$ = $max(\vert X_1 \vert, \vert X_2 \vert, ... \vert X_N \vert)$
+    
+    
+\end{enumerate}
 
 \end{document}
