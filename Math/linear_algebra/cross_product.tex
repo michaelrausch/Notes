@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 
-\title{Dot Product}
+\title{Cross Product}
 \date{}
 
 \usepackage{graphicx} % LaTeX package to import graphics
@@ -36,26 +36,11 @@
 % 
 % "m" is a standard mandatory argument, which can be a single token or multiple tokens surrounded by {}
 % "o" is a standard optional argument, it will supply -NoValue- marker if not given
-% "O", given as O{(default)}, is like "o" but returns default if no valus is given
+% "O", given as O{(default)}, is like "o" but returns default if no value is given
 % "v" reads an argument ‘verbatim’
 
-\NewDocumentCommand{\Vector}{ m m}{%
-    \ensuremath{%
-        \begin{bmatrix}
-                #1 \\ 
-                #2
-        \end{bmatrix}
-    }
-}
-
-\NewDocumentCommand{\VectorThree}{ m m m}{%
-    \ensuremath{%
-        \begin{bmatrix}
-                #1 \\ 
-                #2 \\
-                #3 
-        \end{bmatrix}
-    }
+\NewDocumentCommand{\Vector}{mmo}{%
+  \begin{bmatrix} #1 \\ #2 \IfValueT{#3}{\\ #3} \end{bmatrix}%
 }
 
 \NewDocumentCommand{\InlineFigure}{ O{0.70\textwidth} O{0.35\textwidth} m m v }{%
@@ -68,6 +53,47 @@
 }
 \begin{document}
     \maketitle
+
+The cross product is defined only for three-dimensional vectors. If $a$ and $b$ are two three-dimensional vectors, then their cross product, written as $a \times b$ and pronounced "$a$ cross $b$", \textbf{is another three-dimensional vector}. We define this cross product $a \times b$ by the following three requirements.
+
+\begin{enumerate}
+    \item $a \times b$ is a vector, that is \textbf{perpendicular} to both $a$ and $b$
+    \item The magnitude (or length) of the vector $a \times b$, written as $\| a \times b \|$, is the area of the parallelogram spanned by $a$ and $b$
+    \item The direction of $a \times b$ is determined by the right-hand rule. This means that if we curl the fingers of the right hand from $a$ to $b$, then the thumb points in the direction of $a \times b$
+\end{enumerate}
+
+The below figure illustrates how using trigonometry, we can calculate that the area of the parallelogram spanned by $a$ and $b$ is $\| a \| \| b \| \sin(\theta)$ where $\theta$ is the angle between $a$ and $b$. The figure shows the parallelogram as having a base of length $\| b \|$ and perpendicular height of $\| a \| \sin(\theta)$.
+
+\InlineFigure{Cross Product}{fig1}{cross_product_1.png}
+
+This formula shows that the magnitude of the cross product is largest when $a$ and $b$ are perpendicular. On the other hand, if $a$ and $b$ are parallel or if either vector is the zero vector, then the cross product is the zero vector.
+
+\InlineFigure{Cross Product}{fig2}{cross_product_2.png}
+
+\section{How to calculate the Cross Product}
+
+Given two vectors $\Vec{u}$ = \Vector{$u_1$}{$u_2$}[$u_3$] and $\Vec{v}$ = \Vector{$v_1$}{$v_2$}[$v_3$], the vector product or cross product $\Vec{u} \times \Vec{v}$ can be calculated using the following;
+
+\begin{center}
+    $\Vec{u} \times \Vec{v}$ = $(u_2v_3 - v_2v_3)\Vec{\hat{i}}$ - $(u_1v_3 - v_1u_3)\Vec{\hat{j}}$ + $(u_1v_2 - v_1u_2)\Vec{\hat{k}}$
+
+    or
+    
+    $\Vec{u} \times \Vec{v}$ = $(u_2v_3 - v_2v_3)\Vec{\hat{i}}$ + $(v_1u_3 - u_1v_3)\Vec{\hat{j}}$ + $(u_1v_2 - v_1u_2)\Vec{\hat{k}}$
+\end{center}
+
+\subsection{Example}
+
+$\Vec{u}$ = \Vector{1}{-3}[2] $\Vec{v}$ = \Vector{4}{0}[6]
+
+$\Vec{u} \times \Vec{v}$ = 
+$(-3 \times 6 - 0 \times 2)\hat{i}$ +
+$(4 \times 2 - 1 \times 6)\hat{j}$ +
+$(1 \times 0 - 4 \times -3)\hat{k}$
+$\Vec{u} \times \Vec{v}$ = $\Vec{-18\hat{i}}$ + $\Vec{2\hat{j}}$ $\Vec{12\hat{k}}$
+
+
+
 
 
 \end{document}
