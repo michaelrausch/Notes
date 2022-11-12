@@ -51,6 +51,8 @@ If you wish to see the assembly code, this can be done using the previous output
 
 The assembler (`as.exe`) converts the **assembly code into machine code**. The machine code will be inside of `hello.o`. This can be come from the command `as -o hello.o hello.s`. Therefore an object file is a computer file containing object code, that is, machine code output of an assembler or compiler.
 
+Because object files are machine code, they have therefore been targeted for a specific CPU and a specific Operating System, but are **not a complete executeable**.
+
 # Linking
 
 The linker is what produces the final compilation output from the object files the compiler produced. This output can be either a shared (or dynamic) library or an executeable.
