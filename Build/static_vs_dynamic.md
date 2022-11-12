@@ -1,6 +1,6 @@
 # Static vs Dynamic libraries
 
-When creating a class library in C++, you can choose between dynamic (`.dll`, `.so`) and static libraries (`.lib, .a`) libraries. Here we discuss the difference and when to use each one.
+When creating a class library in C++, you can choose between dynamic and static libraries. Here we discuss the difference and when to use each one.
 
 Firstly, we need to know what a library is. Basically, a library is a collection of functions. You may have noticed that we are using functions which are not defined in our code, or in that particular file. To have access to them, we include a header file, that contains declarations of those functions. After compile, there is a process called linking, that links those funcion declarations with their definitions, which are in another file. The result of this is an actual executeable.
 
