@@ -48,11 +48,9 @@ Programs that are both very large and continuously updated are best distributed 
 
 Installers for very large programs, such as Visual Studio and Microsoft Office, allow the user to de-select the installation of certain features, if the user knows they will never need them. This has 3 potential benefits.
 
-<p align="center">
 1. Reduce disk space consumption
 2. Reduce download time and bandwidth consumption if the installer is a web downloader.
 3. Reduce "clutter" and "bloat" on the users machine, e.g. fewer start menu/desktop shortcuts, fewer startup programs, etc...
-</p>
 
 Installers for complicated programs often come with configuration options that the user can set up using a user-friendly graphical interface as part of the installer, e.g. MySQL or SQL Servers installers, which can take you through the entire process of getting your database server up and running before you even click "Finish" on the installer.
 
