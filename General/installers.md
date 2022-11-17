@@ -62,9 +62,15 @@ Some programs conflict with other programs, this is a simple and unfortunate fac
 
 Programs may have dependencies on other system components that can that can only be installed at a system-wide level, not at a per-user level. In order to install these special system components, administrative privilages are usually required and an installer usually has to be run.
 
-## Discussion
+## Limitation
+
+Many programs, even those that are only available for download as an installer that requires admin priviledges, can be forcibly "unpacked" from their installers and run directly without installing them. Other programs, especially open source ones, are repacked into self-contained executeables by PortableApps It is noteworthy that *some* programs, when unpacked from their installer will have reduced functionality, exhibit errors or other problems.
+
+On Operating Systems other than Windows, it is almost always possible to simply download (or compile) programs and run them as a regular user, without obtaining root. There are a few exceptions with respect to packages that are a core part of the OS, but for most user applications, you can run it in your home directory without installing it system-wide using the package manager. Windows is a bit of a special case in that desktop programs on Windows have an installer and can usually not be instaled any other way.
 
 
+## Conclusion
 
-## conclusion
+In the end of it all, we do not "need" installers, strictly speaking. There are vanishingly few examples of applications that cannot, in princuple, be bundled into a single self-contained executeable with no resources, no installer etc. Even something as complicated as VMware Workstation could automatically obtain admin privileges, write the hypervisor kernel module out to a file on a disk and install it dynamically on program start up and ship all of its resources (images, sound, etc...) bundled inside the data section of an executeable.
 
+Using an installer or not is a choice that Software Developers have to make. There are advantages and disadvantages for using an installer. Many vendors choose to distribute their software 'both' as an installer and as a standalone binary, or atleast as a ZIP file that can simply be unpacked and run. For software that does not absolutely require an installer, this is a very pragmatic way to go and makes everyone happy. Usually, software that does not ship in any other form than with an installer is softwar that requires administrative privileges to install some component of itself, since the installer is the most elegant way to obtain the needed privilges.
