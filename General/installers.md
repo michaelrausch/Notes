@@ -58,5 +58,13 @@ Installers can prompt the user for required information, such as license keys, w
 
 ## Compatibility concerns
 
+Some programs conflict with other programs, this is a simple and unfortunate fact of Software Engineering. Before installing a program that has known conflicts with other programs it is often helpful to first check the system to see whether an incompatible program is installed. The user can then be alerted if so, e.g. there is a very dangerous incompatibility potential in older versions of VMWare and VirtualBox that resulted in a Blue Screen of Death, because one program would try to use a special virtualization processor instruction after it was already reserved for the user by the other product. If you were to simply provide the end product to the user without an installer, you would have to check for the presence of incompatible products at 'every' start of your program, which could slow down the startup of the program.
+
+Programs may have dependencies on other system components that can that can only be installed at a system-wide level, not at a per-user level. In order to install these special system components, administrative privilages are usually required and an installer usually has to be run.
+
+## Discussion
+
+
+
 ## conclusion
 
