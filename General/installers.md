@@ -33,3 +33,20 @@ os.add_dll_directory(intel_runtime)
 os.environ['PATH'] = os.pathsep.join(os_path)
 
 ```
+
+# Benefits of Installation VS Stand-alone executeable file
+
+On Windows, at least, you can download a direct statically-linked executeable file and launch it directly or write your own program and execute it (even dynamically) without having to install it. One might then ask, what purpose does the installation process serve apart from setting up the Windows Registry as mentioned above. Here we will dive deeper into additional benefits for the reason many downloaded software come with installers rather than giving a standalone executeable.
+
+## File size concerns
+
+Programs with many large dependencies can bundle Web-based installers that download the dependencies and place them in a common location, so that they can be shared by multiple programs. For example, DirectX is a very large library. If every single program on your system that depends on DirectX just bundled the entire DirectX runtime with it, it would consume a lot of space.
+
+Programs that are both very large and continuously updated are best distributed as a collection of many small files, along with a launcher or updater program that checks the internet for an updatem and if any update exists, only download the required changes. If all large programs were shipped as a single monolithic executeable, it is very likely that the patch process would require re-downloading the entire executeable, as patching the running executeable file on disk is near impossible due to file locks. Also, because the update needs to know where its files are, it often stores that directory path in a well-known location in the registry.
+
+## User convenience concerns
+
+## Compatibility concerns
+
+## conclusion
+
