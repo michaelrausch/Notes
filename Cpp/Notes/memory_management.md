@@ -4,6 +4,8 @@ C uses `malloc()` and `calloc()` functions to allocate memory dynamically at run
 
 An object can be created  by using `new` and destroyed by using `delete` as when required. A data object created inside a block with `new` will remain in existence until it is explicitly destroyed by using `delete`. Thus, the lifetime of an object is directly under our control and is unrelated to the block structure of the program. In C++, when you use the `new` operator to allocate memory, this memory is allocated in the application's heap segment. Hence, because `new` adds object onto the heap it is important to remember to `delete` it or memory leaks will occur.
 
+## Creating
+
 The `new` operator can be used to create objects of any type. It takes the following general form: `pointer_variable = new data_type`.
 
 Here, `pointer_variable` is a pointer of type `data_type`. The `new` operator allocates sufficient memory to hold a data object of type `data_type` and returns the address of the object. The data_type may be any valid data type. The `pointer_variable` holds the address of the memory space allocated. For example, `int *p = new int`, following by `*p = 25`;
@@ -13,3 +15,13 @@ We can also initialize the memory using the `new` operators. This is done as fol
 `pointer_variable = new data_type(value);`
 
 `int *p = new int(25);`
+
+As mentioned earlier, `new` can be used to create a memory space for any data type including user-defined types such as arrays, structures and classes. The general form for a one-dimensional array is: `pointer_variable = new data_type[size]`. Here, size specifies the number of elements in the array. `int *p = new int[10]` creates a memory space for an array of 10 integers.
+
+When creating multi-dimensional arrays with `new`, the first dimension must be a variable whose value is supplied at runtime. All others must be constants. `array_ptr = new int[10][19][3];`.
+
+## Destroying
+
+When a data object is no longer needed, it is destroyed to release the memory space for reuse. The general form of its use it `delete pointer_variable`. If we want to free a dynamically allocated array, we must use the following form of `delete`, `delete [size]pointer_variable;`. The size specifies the number of elements in the array to be freed. The problem with this form is that the programmer should remember the size of the array. Recent versions of C++ do not require the size to be specified, e.g. `delete []p;` will delete the entire array pointed to by p.
+
+What happens if sufficient memory is not available -- continue
