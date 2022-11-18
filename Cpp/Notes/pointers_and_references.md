@@ -244,3 +244,72 @@ int main()
 
 
 # Key Differences
+
+1. A pointer **can be re-assigned**
+
+```C++
+int x = 5;
+int y = 6;
+int *p;
+p = &x;
+p = &y;
+*p = 10;
+assert(x == 5);
+assert(y == 10);
+```
+
+A reference **cannot be re-bound** and must be **bound at initialization**.
+
+```C++
+int x = 5;
+int y = 6;
+int &q; // error
+int &r = x;
+```
+
+2. A pointer variable has its own identity. A pointer has a distinct, visible memory address that can be taken with the unary `&` operator and a certain amount of space that can be measured with the `sizeof` operator. Using those operators on a reference returns a value corresponding to whatever the reference is bound to; the references own address and size are invisible. Since the reference assumes the identity of the original variable in this way, it is convenient to think of a reference as another name for the same variable.
+
+```C++
+int x = 0;
+int &r = x;
+int *p = &x;
+int *p2 = &r;
+
+assert(p == p2); // &x == &r
+assert(&p != &p2);
+```
+
+3. You can have arbitrarily nested pointers to pointers offering extra levels of indirection. References only offer one level of indirection.
+
+```C++
+int x = 0;
+int y = 0;
+int *p = &x;
+int *q = &y;
+int **pp = &p;
+
+**pp = 2;
+pp = &q; // *pp is now q
+**pp = 4;
+
+assert(x == 2);
+assert(y == 4);
+```
+
+4. A pointer can be assigned `nullptr`, whereas a reference must be bound to an existing object. If you try hard enough, you can bind a reference to a `nullptr`, but this is undefined and will not behave consistently. You can, however, have a reference to a pointer whose value is `nullptr`.
+
+5. Pointers can iterate over an array, you can use `++` to go to the next item that a pointer is pointing to, and `+4` to go to the 5th element. This is no matter what size the object is that the pointer points to.
+
+6. A pointer needs to be dereferenced with `*` to access the memory location it points to, whereas a reference can be used directly. A pointer to class/struct uses `->` to access its members whereas a reference uses a `.`.
+
+7. References cannot be put into an array, whereas points can be.
+
+8. Const references can be bound to temporaries. Pointers cannot (not without some indirection):
+
+```C++
+const int &x = int(12); // legal C++
+int *y = &int(12); // illegal to take the address of a temporary.
+``` 
+This makes `const &` more convenient to use in argument lists and so forth.
+
+
