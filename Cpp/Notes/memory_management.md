@@ -11,4 +11,5 @@ Here, `pointer_variable` is a pointer of type `data_type`. The `new` operator al
 We can also initialize the memory using the `new` operators. This is done as follows, 
 
 `pointer_variable = new data_type(value);`
+
 `int *p = new int(25);`
