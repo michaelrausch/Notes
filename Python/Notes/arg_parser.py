@@ -11,7 +11,7 @@ python arg_parser.py --width 10 --height 10 -v
 
 python arg_parser.py -w 10 -H 10 -q
 
-python3.exe arg_parser.py -w 10 -H 10 -a cats -l dogs -a cats2
+python3.exe arg_parser.py -w 10 -H 10 -a cats -l dogs dogs2 -a cats2
 """
 
 import math
