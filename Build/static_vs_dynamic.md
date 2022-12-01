@@ -1,6 +1,6 @@
 # Static vs Dynamic libraries
 
-When creating a class library in C++, you can choose between dynamic (`.dll`, `.so`) and static libraries (`.lib, .a`) libraries. Here we discuss the difference and when to use each one.
+When creating a class library in C++, you can choose between dynamic and static libraries. Here we discuss the difference and when to use each one.
 
 Firstly, we need to know what a library is. Basically, a library is a collection of functions. You may have noticed that we are using functions which are not defined in our code, or in that particular file. To have access to them, we include a header file, that contains declarations of those functions. After compile, there is a process called linking, that links those funcion declarations with their definitions, which are in another file. The result of this is an actual executeable.
 
@@ -22,5 +22,5 @@ Static libraries increase the overall size of the binary, but it means that you 
 
 ### Dynamic libraries
 
-Dynamic libraries reduce the amount of code that is duplicated in each program that makes use of the library, keeping the binaries small. It also allows you to replace the dynamic object with one that is functionally equivalent, but may have added performance benefits without needing to recompile the program that makes use of it. Dyanmic libraries will, however have a small additional cost for the execution of the functions as well as a run-time loading cost as all the symbols in the library need to be connected to the things they use. Additionally, dynamic libraries can be loaded into an application at run-time, which is the general mechanism for implementing binary plug-in systems.
+Dynamic libraries reduce the amount of code that is duplicated in each program that makes use of the library, keeping the binaries small. It also allows you to replace the dynamic object with one that is functionally equivalent, but may have added performance benefits without needing to recompile the program that makes use of it. Dynamic libraries will, however have a small additional cost for the execution of the functions as well as a run-time loading cost as all the symbols in the library need to be connected to the things they use. Additionally, dynamic libraries can be loaded into an application at run-time, which is the general mechanism for implementing binary plug-in systems.
 
