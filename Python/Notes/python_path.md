@@ -15,7 +15,7 @@ Therefore, Python will search for any packages that have been downloaded to thes
 
 # Modifying `sys.path`
 
-We can modify the `sys.path` to make importing out own directories easier.
+We can modify the `sys.path` to make importing our own directories easier.
 For example I have created the following Python project with the following structure.
 
 ![](./images/python_path_1.png)
