@@ -9,7 +9,7 @@ To show your current directories inside of `sys.path`, the following Python code
 ...
 ```
 
-Therefore, Python will find any packages that have been installed to these locations. Meaning, when we type Python importing code such as `import math`, the math module needs to be inside a directory that is inside the `PYTHONPATH` or we will receive a module not found error, the `PYTHONPATH` is where the Python interpreter looks for imports, very similar to the Window PATH.
+Therefore, Python will search for any packages that have been downloaded to these locations. Meaning, when we type Python importing code such as `import math`, the math module needs to be inside a directory that is inside the `PYTHONPATH` or we will receive a module not found error, the `PYTHONPATH` is where the Python interpreter looks for imports, very similar to the Windows PATH environment variable.
 
 `sys.path` is populated using the **current working directory**, followed by directories listed in your **PYTHONPATH environment variable**, followed by installation-dependent default paths, which are controlled by the site module.
 
