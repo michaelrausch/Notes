@@ -29,6 +29,8 @@ It is possible to have a custom PyPi server by modifying `requirements.txt`, for
 --index-url https://example.com/repository/...
 ```
 
+This means that instead of looking for packages on the public PyPI server, it will search for them on the server specified.
+
 # Python Wheels
 
 ## History
