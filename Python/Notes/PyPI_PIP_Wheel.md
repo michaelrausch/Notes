@@ -22,6 +22,13 @@ qt5 == 5.14.2
 
 Therefore, running `pip install -r requirements.txt` will get all the requirements and place then into the *site-packages*. Alternatively an individual dependency can be downloaded via `pip install numpy`
 
+It is possible to have a custom PyPi server by modifying `requirements.txt`, for example
+
+```
+--trusted-host example.com
+--index-url https://example.com/repository/...
+```
+
 # Python Wheels
 
 ## History
