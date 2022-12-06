@@ -1,0 +1,7 @@
+# CMake
+
+With CMake, you no longer need to maintain separate settings specific to your compiler/build environment. You have one configuration and that works for many environments. CMake can generate a Microsoft Visual Studio solution, an Eclipse project or a Makefile from the same files without changing anything in them.
+
+Given a bunch of directories with code in them, CMake manages all the dependencies, build orders and other tasks that your project needs done before it can be compiled. It does **not actually compile anything**. To use CMake, you must tell it (Using a configuration file called CMakeLists.txt) what executeables you need compiled, what libraries they link to, what directories there are in your project and what is inside of them, as well as any details like flags or anything else you need.
+
+If this is correctly setup, you then use CMake to create all of the files that your "native build environment" of choice needs to do its job. In Linux, by default, this means Makefiles. So once you run CMake, it will create a bunch of files for its own use plus some Makefiles. All you need to do thereafter is type "make" in the console from the root folder every time you're done editing your code and then a compiled and linked executeable is made.
