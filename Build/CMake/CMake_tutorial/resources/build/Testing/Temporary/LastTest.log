@@ -1,0 +1,254 @@
+Start testing: Jan 11 16:25 New Zealand Daylight Time
+----------------------------------------------------------
+1/10 Testing: Runs
+1/10 Test: Runs
+Command: "C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/Debug/compute_square_root.exe" "25"
+Directory: C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build
+"Runs" start time: Jan 11 16:25 New Zealand Daylight Time
+Output:
+----------------------------------------------------------
+testComputing sqrt of 25 to be 13
+Computing sqrt of 25 to be 7.46154
+Computing sqrt of 25 to be 5.40603
+Computing sqrt of 25 to be 5.01525
+Computing sqrt of 25 to be 5.00002
+Computing sqrt of 25 to be 5
+Computing sqrt of 25 to be 5
+Computing sqrt of 25 to be 5
+Computing sqrt of 25 to be 5
+Computing sqrt of 25 to be 5
+The square root of 25 is 5
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"Runs" end time: Jan 11 16:25 New Zealand Daylight Time
+"Runs" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/10 Testing: NoArgumentsGiven
+2/10 Test: NoArgumentsGiven
+Command: "C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/Debug/compute_square_root.exe"
+Directory: C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build
+"NoArgumentsGiven" start time: Jan 11 16:25 New Zealand Daylight Time
+Output:
+----------------------------------------------------------
+C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/Debug/compute_square_root.exe Version 1.0
+Usage: C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/Debug/compute_square_root.exe number
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Pass Reason:
+Required regular expression found. Regex=[Usage:.*number]
+"NoArgumentsGiven" end time: Jan 11 16:25 New Zealand Daylight Time
+"NoArgumentsGiven" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/10 Testing: StandardUse
+3/10 Test: StandardUse
+Command: "C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/Debug/compute_square_root.exe" "4"
+Directory: C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build
+"StandardUse" start time: Jan 11 16:25 New Zealand Daylight Time
+Output:
+----------------------------------------------------------
+testComputing sqrt of 4 to be 2.5
+Computing sqrt of 4 to be 2.05
+Computing sqrt of 4 to be 2.00061
+Computing sqrt of 4 to be 2
+Computing sqrt of 4 to be 2
+Computing sqrt of 4 to be 2
+Computing sqrt of 4 to be 2
+Computing sqrt of 4 to be 2
+Computing sqrt of 4 to be 2
+Computing sqrt of 4 to be 2
+The square root of 4 is 2
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Pass Reason:
+Required regular expression found. Regex=[The square root of 4 is 2]
+"StandardUse" end time: Jan 11 16:25 New Zealand Daylight Time
+"StandardUse" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/10 Testing: Comp4
+4/10 Test: Comp4
+Command: "C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/Debug/compute_square_root.exe" "4"
+Directory: C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build
+"Comp4" start time: Jan 11 16:25 New Zealand Daylight Time
+Output:
+----------------------------------------------------------
+testComputing sqrt of 4 to be 2.5
+Computing sqrt of 4 to be 2.05
+Computing sqrt of 4 to be 2.00061
+Computing sqrt of 4 to be 2
+Computing sqrt of 4 to be 2
+Computing sqrt of 4 to be 2
+Computing sqrt of 4 to be 2
+Computing sqrt of 4 to be 2
+Computing sqrt of 4 to be 2
+Computing sqrt of 4 to be 2
+The square root of 4 is 2
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Fail Reason:
+Required regular expression not found. Regex=[The square root of 4 is 5
+]
+"Comp4" end time: Jan 11 16:25 New Zealand Daylight Time
+"Comp4" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/10 Testing: Comp9
+5/10 Test: Comp9
+Command: "C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/Debug/compute_square_root.exe" "9"
+Directory: C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build
+"Comp9" start time: Jan 11 16:25 New Zealand Daylight Time
+Output:
+----------------------------------------------------------
+testComputing sqrt of 9 to be 5
+Computing sqrt of 9 to be 3.4
+Computing sqrt of 9 to be 3.02353
+Computing sqrt of 9 to be 3.00009
+Computing sqrt of 9 to be 3
+Computing sqrt of 9 to be 3
+Computing sqrt of 9 to be 3
+Computing sqrt of 9 to be 3
+Computing sqrt of 9 to be 3
+Computing sqrt of 9 to be 3
+The square root of 9 is 3
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Pass Reason:
+Required regular expression found. Regex=[The square root of 9 is 3]
+"Comp9" end time: Jan 11 16:25 New Zealand Daylight Time
+"Comp9" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/10 Testing: Comp5
+6/10 Test: Comp5
+Command: "C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/Debug/compute_square_root.exe" "5"
+Directory: C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build
+"Comp5" start time: Jan 11 16:25 New Zealand Daylight Time
+Output:
+----------------------------------------------------------
+testComputing sqrt of 5 to be 3
+Computing sqrt of 5 to be 2.33333
+Computing sqrt of 5 to be 2.2381
+Computing sqrt of 5 to be 2.23607
+Computing sqrt of 5 to be 2.23607
+Computing sqrt of 5 to be 2.23607
+Computing sqrt of 5 to be 2.23607
+Computing sqrt of 5 to be 2.23607
+Computing sqrt of 5 to be 2.23607
+Computing sqrt of 5 to be 2.23607
+The square root of 5 is 2.23607
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Pass Reason:
+Required regular expression found. Regex=[The square root of 5 is 2.236]
+"Comp5" end time: Jan 11 16:25 New Zealand Daylight Time
+"Comp5" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/10 Testing: Comp7
+7/10 Test: Comp7
+Command: "C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/Debug/compute_square_root.exe" "7"
+Directory: C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build
+"Comp7" start time: Jan 11 16:25 New Zealand Daylight Time
+Output:
+----------------------------------------------------------
+testComputing sqrt of 7 to be 4
+Computing sqrt of 7 to be 2.875
+Computing sqrt of 7 to be 2.65489
+Computing sqrt of 7 to be 2.64577
+Computing sqrt of 7 to be 2.64575
+Computing sqrt of 7 to be 2.64575
+Computing sqrt of 7 to be 2.64575
+Computing sqrt of 7 to be 2.64575
+Computing sqrt of 7 to be 2.64575
+Computing sqrt of 7 to be 2.64575
+The square root of 7 is 2.64575
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Pass Reason:
+Required regular expression found. Regex=[The square root of 7 is 2.645]
+"Comp7" end time: Jan 11 16:25 New Zealand Daylight Time
+"Comp7" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/10 Testing: Comp25
+8/10 Test: Comp25
+Command: "C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/Debug/compute_square_root.exe" "25"
+Directory: C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build
+"Comp25" start time: Jan 11 16:25 New Zealand Daylight Time
+Output:
+----------------------------------------------------------
+testComputing sqrt of 25 to be 13
+Computing sqrt of 25 to be 7.46154
+Computing sqrt of 25 to be 5.40603
+Computing sqrt of 25 to be 5.01525
+Computing sqrt of 25 to be 5.00002
+Computing sqrt of 25 to be 5
+Computing sqrt of 25 to be 5
+Computing sqrt of 25 to be 5
+Computing sqrt of 25 to be 5
+Computing sqrt of 25 to be 5
+The square root of 25 is 5
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Pass Reason:
+Required regular expression found. Regex=[The square root of 25 is 5]
+"Comp25" end time: Jan 11 16:25 New Zealand Daylight Time
+"Comp25" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/10 Testing: Comp-25
+9/10 Test: Comp-25
+Command: "C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/Debug/compute_square_root.exe" "-25"
+Directory: C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build
+"Comp-25" start time: Jan 11 16:25 New Zealand Daylight Time
+Output:
+----------------------------------------------------------
+testThe square root of -25 is 0
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Pass Reason:
+Required regular expression found. Regex=[The square root of -25 is (-nan|nan|0)]
+"Comp-25" end time: Jan 11 16:25 New Zealand Daylight Time
+"Comp-25" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/10 Testing: Comp0.0001
+10/10 Test: Comp0.0001
+Command: "C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/Debug/compute_square_root.exe" "0.0001"
+Directory: C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build
+"Comp0.0001" start time: Jan 11 16:25 New Zealand Daylight Time
+Output:
+----------------------------------------------------------
+testComputing sqrt of 0.0001 to be 0.50005
+Computing sqrt of 0.0001 to be 0.250125
+Computing sqrt of 0.0001 to be 0.125262
+Computing sqrt of 0.0001 to be 0.0630304
+Computing sqrt of 0.0001 to be 0.0323084
+Computing sqrt of 0.0001 to be 0.0177018
+Computing sqrt of 0.0001 to be 0.0116755
+Computing sqrt of 0.0001 to be 0.0101202
+Computing sqrt of 0.0001 to be 0.0100007
+Computing sqrt of 0.0001 to be 0.01
+The square root of 0.0001 is 0.01
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Pass Reason:
+Required regular expression found. Regex=[The square root of 0.0001 is 0.01]
+"Comp0.0001" end time: Jan 11 16:25 New Zealand Daylight Time
+"Comp0.0001" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jan 11 16:25 New Zealand Daylight Time

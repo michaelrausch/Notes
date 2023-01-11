@@ -1,0 +1,3 @@
+C:/Program Files (x86)/My_Project/lib/MathFunctions.lib
+C:/Program Files (x86)/My_Project/bin/compute_square_root.exe
+C:/Program Files (x86)/My_Project/include/sqrt.h

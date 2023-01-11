@@ -1,0 +1,10 @@
+^C:\USERS\MICHA\DESKTOP\NOTES\BUILD\CMAKE\CMAKE_TUTORIAL\RESOURCES\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources -BC:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build --check-stamp-file C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
