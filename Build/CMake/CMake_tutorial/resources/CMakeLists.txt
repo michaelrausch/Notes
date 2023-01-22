@@ -43,7 +43,7 @@ install(FILES "${PROJECT_BINARY_DIR}/src/sqrt.h"
 
 ###### Tests ######
 
-enable_testing()
+include(CTest)
 
 add_test(NAME Runs COMMAND compute_square_root 25)
 
@@ -65,7 +65,7 @@ function(do_test target arg result)
 endfunction()
 
 # do a bunch of result based tests
-do_test(compute_square_root 4 "The square root of 4 is 5")
+do_test(compute_square_root 4 "The square root of 4 is 2")
 do_test(compute_square_root 9 "The square root of 9 is 3")
 do_test(compute_square_root 5 "The square root of 5 is 2.236")
 do_test(compute_square_root 7 "The square root of 7 is 2.645")

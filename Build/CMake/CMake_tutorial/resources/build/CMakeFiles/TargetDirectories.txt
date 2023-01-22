@@ -1,8 +1,0 @@
-C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/CMakeFiles/compute_square_root.dir
-C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/CMakeFiles/RUN_TESTS.dir
-C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/CMakeFiles/INSTALL.dir
-C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/CMakeFiles/ZERO_CHECK.dir
-C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/MathFunctions/CMakeFiles/MathFunctions.dir
-C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/MathFunctions/CMakeFiles/RUN_TESTS.dir
-C:/Users/micha/Desktop/Notes/Build/CMake/CMake_tutorial/resources/build/MathFunctions/CMakeFiles/INSTALL.dir

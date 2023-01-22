@@ -24,7 +24,6 @@ if (argc < 2) {
 
   // calculate square root
   #ifdef USE_MYMATH
-    std::cout << "test";
     const double outputValue = mysqrt(inputValue);
   #else
     const double outputValue = sqrt(inputValue);
