@@ -65,12 +65,13 @@ add_custom_command(
 )
 ```
 
-[This command](https://cmake.org/cmake/help/latest/command/add_custom_command.html) is to simply add a custom build rule to the generated build system.
+[This command](https://cmake.org/cmake/help/latest/command/add_custom_command.html) is to simply add a custom build rule to the generated build system. It is important to note that `add_custom_command` does not immediately result in the command being executed, but rather it will only execute if it needs build the dependency.
+
 
 The three keywords used in this example are `OUTPUT`, `COMMAND` and `DEPENDS`.
 
 ### OUTPUT
-The argument `OUTPUT` specifies the output files the command is expected to produce. Each output file will be marked with the `GENERATED` source file property automatically.
+The argument `OUTPUT` specifies the output files the command is expected to produce. Each output file will be marked with the `GENERATED` source file property automatically. It is important to note that this CMake command itself does not generate the file, it is stating that after performing `COMMAND` a new file should be generated with the provided name, it will then find this file and mark it with a property `GENERATED`. Files marked with the property `GENERATED` are useful because any target that dependes on a file marked with `GENERATED` will result in a dependency and cause the command to be ran.
 
 ### COMMAND
 
@@ -105,10 +106,48 @@ Fist let us recap the output here,
 
 Whereas, `${CMAKE_CURRENT_BINARY_DIR}` has the value of `.../Build/CMake/CMake_tutorial/resources/build/MathFunctions`. 
 
-The key difference here is that the binary directory is the directory where output files were placed after building. This means, `${CMAKE_CURRENT_BINARY_DIR}` is looking to include `Table.h`, whereas ``${CMAKE_CURRENT_SOURCE_DIR}`` is looking to include `MathFunctions.h`. Remember that `Table.h` is generated later on but `MathFunctions.h` is available directly, therefore they have different include directories.
+The key difference here is that the binary directory is the directory where output files were placed after building. This means, `${CMAKE_CURRENT_BINARY_DIR}` is looking to include `Table.h`, whereas ``${CMAKE_CURRENT_SOURCE_DIR}`` is looking to include `MathFunctions.h`. Remember that `Table.h` is generated later on but `MathFunctions.h` is available directly, therefore they have different include directories. It important to note that include directories tells CMake **where to search, it does not important them**, but rather they are included still with `#include`.
 
 
+## How add_custom_command is executed
+
+It is important to note that `add_custom_command` does not immediately result in the command being executed, but rather it will only execute if it needs build the dependency.
+
+Let us look at,
+
+```
+add_custom_command(
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/Table.h
+  COMMAND MakeTable ${CMAKE_CURRENT_BINARY_DIR}/Table.h
+  DEPENDS MakeTable
+  )
+
+add_library(MathFunctions
+            mysqrt.cxx
+            ${CMAKE_CURRENT_BINARY_DIR}/Table.h
+)
+```
+
+Specified in the [add_custom_command](https://cmake.org/cmake/help/latest/command/add_custom_command.html) documentation, it states for `OUTPUT` "Each output file will be marked with the `GENERATED` source file property automatically". In additional to this the documentation for [`GENERATED`](https://cmake.org/cmake/help/latest/prop_sf/GENERATED.html#prop_sf:GENERATED) states, "When a generated file created as the `OUTPUT` of an `add_custom_command()` command is **explicitly listed as a source file for any target in the same directory scope** (which usually means the same CMakeLists.txt file), CMake will automatically **create a dependency** to make sure the file is generated before building that target."
+
+In this example, the target which explicitly states the file listed as a dependency is
+
+```
+add_library(MathFunctions                       <--- Our Target
+            mysqrt.cxx
+            ${CMAKE_CURRENT_BINARY_DIR}/Table.h <-- Specifying a file dependency from `OUTPUT`
+)
+```
+
+For CMake (or in general, make files), we specify a list of commands to create other files/dependencies and these commands are only executed when required (i.e. my target depends on them). We need to specify which files we want to generate/depend on and CMake will search for the depencies and create them. The ordering of definitions in the `CMakeLists.txt` does not matter too much, the definitions are not executed in order, they're later used to create the build system.
+
+By changing my `add_library` to,
 
 
+```
+add_library(MathFunctions
+            mysqrt.cxx
+)
+```
 
-
+this states that our library `MathFunctions` does not depend on `${CMAKE_CURRENT_BINARY_DIR}/Table.h`, therefore our custom command has no reason to run and will no longer generate `Table.h`.
