@@ -128,7 +128,7 @@ add_library(MathFunctions
 )
 ```
 
-Specified in the [add_custom_command](https://cmake.org/cmake/help/latest/command/add_custom_command.html) documentation, it states for `OUTPUT` "Each output file will be marked with the `GENERATED` source file property automatically". In additional to this the documentation for [`GENERATED`](https://cmake.org/cmake/help/latest/prop_sf/GENERATED.html#prop_sf:GENERATED) states, "When a generated file created as the `OUTPUT` of an `add_custom_command()` command is **explicitly listed as a source file for any target in the same directory scope** (which usually means the same CMakeLists.txt file), CMake will automatically **create a dependency** to make sure the file is generated before building that target."
+Specified in the `[add_custom_command`](https://cmake.org/cmake/help/latest/command/add_custom_command.html) documentation, it states for `OUTPUT` "Each output file will be marked with the `GENERATED` source file property automatically". In additional to this the documentation for [`GENERATED`](https://cmake.org/cmake/help/latest/prop_sf/GENERATED.html#prop_sf:GENERATED) states, "When a generated file created as the `OUTPUT` of an `add_custom_command()` command is **explicitly listed as a source file for any target in the same directory scope** (which usually means the same CMakeLists.txt file), CMake will automatically **create a dependency** to make sure the file is generated before building that target."
 
 In this example, the target which explicitly states the file listed as a dependency is
 
