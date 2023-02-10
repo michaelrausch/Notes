@@ -30,3 +30,21 @@ Static libraries increase the overall size of the binary, but it means that you 
 
 Dynamic libraries reduce the amount of code that is duplicated in each program that makes use of the library, keeping the binaries small. It also allows you to replace the dynamic object with one that is functionally equivalent, but may have added performance benefits without needing to recompile the program that makes use of it. Dynamic libraries will, however have a small additional cost for the execution of the functions as well as a run-time loading cost as all the symbols in the library need to be connected to the things they use. Additionally, dynamic libraries can be loaded into an application at run-time, which is the general mechanism for implementing binary plug-in systems.
 
+
+# .exp
+
+A `.exp` file is an export file, which is used in Windows to define the symbols that are exported from a dynamic-link library (DLL). The `.exp file` contains a list of all the functions and variables that are part of the DLL's public interface, and it is used by the linker to generate the correct import library for the DLL.
+
+A symbol is a named entity in a program or library that refers to a specific location in memory. In computer programming, symbols are used to represent various elements of a program, such as variables, functions, and objects.
+
+In the context of dynamic-link libraries (DLLs) and export files (.exp), a symbol refers to a function or variable that is part of the public interface of the library. When a symbol is exported from a DLL, it means that the symbol is part of the library's public interface and can be accessed by client code that links against the library.
+
+Therefore, functions that are inside the `.exp` could be made public via using `__declspec(dllexport)`.
+
+# .pdb
+
+A `.pdb` (Program Database) file is a file used by Microsoft Visual Studio and the Microsoft linker. It contains debugging information for an executable program or a dynamic-link library (DLL). The `.pdb` file provides information about the functions, variables, and data structures in the program, as well as information about the program's layout in memory. This information is used by the debugger to allow developers to debug their code.
+
+The `.pdb` file contains symbols and debugging information about the program or library. When a program is compiled in debug mode, the compiler generates a `.pdb` file that contains information about the source code, including line numbers, variable names, and types, among other things. When a program is executed, the debugger uses the information in the `.pdb` file to provide an interactive debugging experience, including the ability to display source code and variables, set breakpoints, and examine the call stack.
+
+It's worth noting that a `.pdb` file is not required to run a program, but it is required for debugging the program. When a program is built in release mode, the compiler typically does not generate a `.pdb` file, so the program cannot be debugged.

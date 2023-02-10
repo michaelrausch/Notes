@@ -15,31 +15,33 @@ target_compile_options(tutorial_compiler_flags INTERFACE
   "$<${msvc_cxx}:$<BUILD_INTERFACE:-W3>>"
 )
 
-option(USE_MYMATH "Use tutorial provided math implementation" TRUE)
+# control where the static and shared libraries are built so that on windows
+# we don't need to tinker with the path to run the executable
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/CMAKE_ARCHIVE_OUTPUT_DIRECTORY")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/CMAKE_LIBRARY_OUTPUT_DIRECTORY")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/CMAKE_RUNTIME_OUTPUT_DIRECTORY")
 
-configure_file(src/sqrt.h.in src/sqrt.h)
+option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
-if(USE_MYMATH)
-  add_subdirectory(MathFunctions)
-  list(APPEND EXTRA_LIBS MathFunctions)
-endif()
+configure_file(src/config.h.in src/config.h)
  
 add_executable(compute_square_root 
-    src/sqrt.cxx)
+    src/sqrt.cxx
+)
 
-target_link_libraries(compute_square_root PUBLIC 
-                        ${EXTRA_LIBS} tutorial_compiler_flags
-                      )
-
+# add the binary tree to the search path for include files
+# so that we will find config.h
 target_include_directories(compute_square_root PUBLIC
-                            "${PROJECT_BINARY_DIR}/src"
+                           "${PROJECT_BINARY_DIR}/src"
                            )
 
-install(TARGETS compute_square_root DESTINATION bin)
-install(FILES "${PROJECT_BINARY_DIR}/src/sqrt.h"
-  DESTINATION include
-  )
+add_subdirectory(MathFunctions)
+target_link_libraries(compute_square_root PUBLIC MathFunctions tutorial_compiler_flags)
 
+install(TARGETS compute_square_root DESTINATION bin)
+install(FILES "${PROJECT_BINARY_DIR}/src/config.h"
+  DESTINATION include
+)
 
 ###### Tests ######
 
@@ -73,7 +75,7 @@ do_test(compute_square_root 25 "The square root of 25 is 5")
 do_test(compute_square_root -25 "The square root of -25 is (-nan|nan|0)")
 do_test(compute_square_root 0.0001 "The square root of 0.0001 is 0.01")
 
-# setup installer
+##### setup installer #####
 include(InstallRequiredSystemLibraries)
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/License.txt")
 set(CPACK_PACKAGE_VERSION_MAJOR "${My_Project_VERSION_MAJOR}")

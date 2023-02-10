@@ -2,6 +2,7 @@
 #include <cmath>
 #include <fstream>
 #include <iostream>
+#include <example.h>
 
 int main(int argc, char* argv[])
 {
@@ -9,10 +10,6 @@ int main(int argc, char* argv[])
   if (argc < 2) {
     return 1;
   }
-
-  std::cout << "The number of arguments passed to MakeTable.cxx is " << argc << " \n";
-  std::cout << "Inside MakeTable.cxx with argument " << argv[0] << std::endl;
-  std::cout << "Inside MakeTable.cxx with argument " << argv[1] << std::endl;
 
   std::ofstream fout(argv[1], std::ios_base::out);
   const bool fileOpen = fout.is_open();

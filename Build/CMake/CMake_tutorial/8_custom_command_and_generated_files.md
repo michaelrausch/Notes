@@ -65,7 +65,7 @@ add_custom_command(
 )
 ```
 
-[This command](https://cmake.org/cmake/help/latest/command/add_custom_command.html) is to simply add a custom build rule to the generated build system. It is important to note that `add_custom_command` does not immediately result in the command being executed, but rather it will only execute if it needs build the dependency.
+[This command](https://cmake.org/cmake/help/latest/command/add_custom_command.html) is to simply add a custom build rule to the generated build system. It is important to note that `add_custom_command` **does not immediately result in the command being executed**, but rather it will only execute if it needs build the dependency.
 
 
 The three keywords used in this example are `OUTPUT`, `COMMAND` and `DEPENDS`.
