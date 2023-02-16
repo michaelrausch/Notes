@@ -28,10 +28,11 @@ cpack
 To specify the generator, use the `-G` option. For multi-config builds, use `-C` to specify the configuration, e.g.
 
 ```
-cpack -G ZIP -C Debug
+cpack -G NSIS -C Debug
 ```
 
-The output from `cpack` will be an executable called `My_Project-1.0-win64.exe` located inside the build directory.
+The output from `cpack` will be an executable called `My_Project-1.0-win64.exe` located inside the build directory. Here I will be using the NSIS
+installer for this tutorial.
 
 ![](./images/25.PNG)
 
