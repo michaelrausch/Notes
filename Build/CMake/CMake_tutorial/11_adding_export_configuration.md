@@ -112,8 +112,34 @@ export(EXPORT MathFunctionsTargets
 
 With this export call we now generate a MathFunctionsTargets.cmake, allowing the configured `MathFunctionsConfig.cmake` in the build directory to be used by other projects, without needing it to be installed.
 
+# What is a `.cmake` file?
 
-## $<BUILD_INTERFACE:...> and $<INSTALL_INTERFACE:...>
+During our added commands such as,
+
+```CMake
+install(TARGETS ${installable_libs}
+        EXPORT MathFunctionsTargets
+        DESTINATION lib)
+```
+The `EXPORT` keyword in the `install` command generates a CMake targets file, typically with a `.cmake` file extension. This file contains information about the targets being exported, such as their include directories, linker flags, dependencies, and so on. The exported targets can be used by other CMake projects to automatically link against your libraries and to set include directories, compile options, and other build properties.
+
+When you use the `EXPORT` keyword, you specify a name for the exported target file, in this case `MathFunctionsTargets`. This name is used to create a CMake configuration file named `MathFunctionsTargets.cmake`. This file will be installed to the `lib/cmake/MathFunctions` directory of your installation.
+
+To use the exported targets, other CMake projects can include the `MathFunctionsTargets` file using the `find_package` command. The `find_package` command looks for a CMake configuration file with the specified name, in this case `MathFunctionsTargets.cmake`. The configuration file contains the exported targets, along with any associated properties, which can be used to link against the libraries and set build properties.
+
+The main advantage of using an exported targets file is that it makes it easier for other projects to use your libraries. Instead of manually setting include directories, linker flags, and other build properties, other projects can simply include the targets file and use the imported targets.
+
+`add_subdirectory` is not enough, as it only adds the subdirectory to the current project and includes the `CMakeLists.txt` file in that directory. It does not generate an exported targets file, and does not make the targets available to other projects.
+
+For example, let us analyze the output of our installation using `cpack -G NSIS -C Debug`:
+
+![](./images/36.png)
+
+Everything is exactly the same, except for the addition of `lib/cmake/MathFunctions` that now stores our `MathFunctionTargets.cmake`. That is, `bin` only stores our `.exe` and `.dll`. `include` only has our `.h`. The contents inside of `lib` is some `.dll` and `.lib`. Notice here that their is no `CMakeLists.txt`! 
+
+This means that anyone who wants to utilize and use our `MathFunctions` library needs to perform `find_package(MathFunctions REQUIRED)`. Notice here that we do not rebuild `MathFunctions` each time, it is a library that we utilize. Similarily if we depended on something such as Qt, we would like to it using CMake and utilize it's `.cmake` file for the setup and linking. Here we are doing the same and allowing others to utilize our `MathFunctions` library without building it themselves or giving them our `CMakeLists.txt`.
+
+# `$<BUILD_INTERFACE:...>` and `$<INSTALL_INTERFACE:...>`
 
 These are two generator expressions that can be explained via the [documentation](https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html#export-and-install-expressions). However, they work like this.
 
