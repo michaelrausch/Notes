@@ -37,7 +37,7 @@ target_include_directories(MathFunctions
 
 and via the use of `install`.
 
-What CMake is trying to say is that during generating the export information it will export a path that is intrinsically tied to the current machine and will not be valid on other machines. The solution to this is to update the `MathFunctions` `target_include_directories()` to understand that it needs different `INTERFACE` locations when being used from within the build directory and from an install / package. This means converting the `target_include_directories()` call for `MathFunctions` to look like:
+What CMake is trying to say is that during generating the export information it will export a path that is intrinsically tied to the current machine and will not be valid on other machines. For example, I cannot create a library that someone else could utilize if they need to find files located at `C://Michaels/own_computer/path/.../MathFunctionTargets.cmake`. The solution to this is to update the `MathFunctions` `target_include_directories()` to understand that it needs different `INTERFACE` locations when being used from within the build directory and from an install / package. This means converting the `target_include_directories()` call for `MathFunctions` to look like:
 
 ```CMake
 target_include_directories(MathFunctions
@@ -50,7 +50,6 @@ target_include_directories(MathFunctions
 At this point, we have CMake properly packaging the target information that is required but we will still need to generate a `MathFunctionsConfig.cmake` so that the CMake `find_package()` command can find our project. So let's go ahead and add a new file to the top-level of the project called `Config.cmake.in` with the following contents:
 
 ```CMake
-
 @PACKAGE_INIT@
 
 include ( "${CMAKE_CURRENT_LIST_DIR}/MathFunctionsTargets.cmake" )
@@ -68,7 +67,7 @@ install(EXPORT MathFunctionsTargets
 include(CMakePackageConfigHelpers)
 ```
 
-Next, we execute the `configure_package_config_file()`. This command will configure a provided file but with a few specific differences from the `standard configure_file()` way. To properly utilize this function, the input file should have a single line with the text `@PACKAGE_INIT@` in addition to the content that is desired. That variable will be replaced with a block of code which turns set values into relative paths. These values which are new can be referenced by the same name but prepended with a `PACKAGE_` prefix. Add,
+Next, we execute the `configure_package_config_file()`. This command will configure a provided file but with a few specific differences from the `standard configure_file()` way. To properly utilize this function, the input file should have a single line with the text `@PACKAGE_INIT@` in addition to the content that is desired. **That variable will be replaced with a block of code which turns set values into relative paths**. These values which are new can be referenced by the same name but prepended with a `PACKAGE_` prefix. Add,
 
 ```CMake
 # generate the config file that includes the exports
@@ -117,13 +116,14 @@ With this export call we now generate a MathFunctionsTargets.cmake, allowing the
 During our added commands such as,
 
 ```CMake
-install(TARGETS ${installable_libs}
-        EXPORT MathFunctionsTargets
-        DESTINATION lib)
+install(EXPORT MathFunctionsTargets
+        FILE MathFunctionsTargets.cmake
+        DESTINATION lib/cmake/MathFunctions
+)
 ```
-The `EXPORT` keyword in the `install` command generates a CMake targets file, typically with a `.cmake` file extension. This file contains information about the targets being exported, such as their include directories, linker flags, dependencies, and so on. The exported targets can be used by other CMake projects to automatically link against your libraries and to set include directories, compile options, and other build properties.
+The `EXPORT` keyword in the `install` command generates a **CMake targets file**, typically with a `.cmake` file extension. This file contains information about the targets being exported, such as their include directories, linker flags, dependencies, and so on. The exported targets can be used by other CMake projects to automatically link against your libraries and to set include directories, compile options, and other build properties.
 
-When you use the `EXPORT` keyword, you specify a name for the exported target file, in this case `MathFunctionsTargets`. This name is used to create a CMake configuration file named `MathFunctionsTargets.cmake`. This file will be installed to the `lib/cmake/MathFunctions` directory of your installation.
+When you use the `FILE` keyword, you specify a name for the exported target file, in this case `MathFunctionsTargets.cmake`. This file will be installed to the `lib/cmake/MathFunctions` directory of your installation.
 
 To use the exported targets, other CMake projects can include the `MathFunctionsTargets` file using the `find_package` command. The `find_package` command looks for a CMake configuration file with the specified name, in this case `MathFunctionsTargets.cmake`. The configuration file contains the exported targets, along with any associated properties, which can be used to link against the libraries and set build properties.
 
@@ -138,6 +138,61 @@ For example, let us analyze the output of our installation using `cpack -G NSIS 
 Everything is exactly the same, except for the addition of `lib/cmake/MathFunctions` that now stores our `MathFunctionTargets.cmake`. That is, `bin` only stores our `.exe` and `.dll`. `include` only has our `.h`. The contents inside of `lib` is some `.dll` and `.lib`. Notice here that their is no `CMakeLists.txt`! 
 
 This means that anyone who wants to utilize and use our `MathFunctions` library needs to perform `find_package(MathFunctions REQUIRED)`. Notice here that we do not rebuild `MathFunctions` each time, it is a library that we utilize. Similarily if we depended on something such as Qt, we would like to it using CMake and utilize it's `.cmake` file for the setup and linking. Here we are doing the same and allowing others to utilize our `MathFunctions` library without building it themselves or giving them our `CMakeLists.txt`.
+
+# `install(TARGET)` and `install(EXPORT)`
+
+## `install(TARGET)`
+
+It is important to understand that in CMake, although [`install`](https://cmake.org/cmake/help/latest/command/install.html#synopsis) is a single command **the first keyword mostly signifies the behaviour of the function**.
+
+For example in our examples behaviour `install(TARGET ...)` behaves differently to `install(EXPORT ...)` despite both of them offering a `EXPORT` keyword in those method calls.
+
+![](./images/37.png)
+
+Here I will iterate how the following works, first let us begin with the following.
+
+```CMake
+install(TARGETS ${installable_libs} 
+        EXPORT MathFunctionsTargets 
+        DESTINATION lib)
+```
+
+`install(TARGETS ...)` will install the following targets inside of `${installable_libs}` to the directory `lib`. The keyword `EXPORT` behaves in a specific way, taken directly from the [documentation](https://cmake.org/cmake/help/latest/command/install.html#installing-targets), "This option associates the installed target files with an export called `<export-name>`". In other words, here we are installing the targets (creating the `.dll` and `.lib`) and placing them into the `lib` directory which essentially keeping a reference name called `MathFunctionsTargets`. Keep in mind, **this does not generate a `.cmake` file**.
+
+
+## `install(EXPORT ...)`
+
+```cmake
+install(EXPORT MathFunctionsTargets
+        FILE MathFunctionsTargets.cmake
+        DESTINATION lib/cmake/MathFunctions
+)
+```
+
+In this example by using `EXPORT` **first** the beaviour is different and the name after `EXPORT` is the name of anything specified using `install(TARGET ... EXPORT name)`. Taken directly from the [documentation](https://cmake.org/cmake/help/latest/command/install.html#installing-exports) we can see the following quote, "The `EXPORT` form **generates and installs a CMake file** containing code to import targets from the installation tree into another project. **Target installations are associated with the export `<export-name>` using the `EXPORT` option of the `install(TARGETS)` signature documented above.**"
+
+Here, we are finally generating the `.cmake` file that contains information to utilzie the targets specified in `${installable_libs}` which are both `SqrtLibrary` and `MathFunctions`.
+
+
+Infact, a minor analysis of `MathFunctionsTargets.cmake` we can see that anybody utilizing this `.cmake` file will automatically have the behaviour requirements of importing the libraries as shown,
+
+![](./images/38.png)
+
+Keep in mind this generates the `.cmake` file when **installing, not building**. Therefore the `.cmake` will be located at `lib/cmake/MathFunctions`. To generate a `.cmake` **when building**, this is done with the additional lines added afterwards.
+
+```cmake
+export(EXPORT MathFunctionsTargets
+  FILE "${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsTargets.cmake"
+)
+```
+
+Keep in mind, again, `MathFunctionTargets` is referring to 
+
+```cmake
+install(TARGETS ${installable_libs} 
+        EXPORT MathFunctionsTargets   <------
+        DESTINATION lib)
+```
 
 # `$<BUILD_INTERFACE:...>` and `$<INSTALL_INTERFACE:...>`
 
