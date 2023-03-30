@@ -170,9 +170,9 @@ Here, both `p` and `q` are **null pointers**, meaning that they explicitly point
 int * r = NULL;
 ```
 
-## Pointers passed to a function
+## Pointers to a function
 
-C++ allows operations with pointers to functions. The typical use of this is for passing a function as an argument to another function. Pointers to functions are declared with the same syntax as a regular function declaration, except that the name of the function is enclosed between parentheses () and an asterisk (*) is inserted before the name,
+C++ allows operations with pointers to functions. The typical use of this is for passing a function as an argument to another function. Pointers to functions are declared with the same syntax as a regular function declaration, except that the name of the function is enclosed between parentheses `()` and an asterisk `(*)` is inserted before the name. The act of calling it performs the dereference, therefore we do not need to dereference it to call the function.
 
 ```C++
 #include <iostream>
@@ -195,7 +195,25 @@ int main()
 
 ## Passing a pointer to a function
 
-Pointers are stored on the heap, not the stack. This means if we dereference the passed pointer to a function TODO
+Pointers are stored on the heap, not the stack. This means if we dereference the passed pointer to a function we change the value in the memory, i.e. if we change the value inside a function, it will change it to any variable that points to the same memory location that is outside of the local stack.
+
+```C++
+int change_to_5(int *p)
+{
+    return *p = 5;
+}
+
+int main()
+{
+    int a = 100;
+    cout << a << endl;
+    change_to_5(&a);
+    cout << a << endl;
+    return 0;
+}
+```
+
+Hence, the value of `a` is changed to `5` after passing the memory address location to `change_to_5`.
 
 # References
 
@@ -223,6 +241,7 @@ int main()
 
 Similar to pointers, if the parameter to the function is passed as a reference, changing the parameter will change the value outside of the function, **it is not a change to the local stack**. When passing a variable to the function that is receiving it as a reference variable, you do not need to do anything specific, for example if it was a pointer you may need to utilize the address-of operator (&).
 
+
 ```C++
 #include <iostream>
 
@@ -240,6 +259,21 @@ int main()
     return 0;
 }
 ```
+## Function returning a reference
+
+A function can also return a reference.
+
+```C++
+int & max(int &x, int &y)
+{
+    if (x > y)
+        return x;
+    else
+        return y;
+}
+```
+
+Since the return type of `max()` is `int &`, the function returns a reference to `x` or `y` (and **NOT the values**). Then a function call such as `max(a, b)` will yield a reference to either `a` or `b` depending on their values. This means that this function call can appear on the left-hand side of an assignment statement, e.g. `max(a, b) = -1;` is legal and assigns `-1` to `a` if it is larger, otherwise `-1` to `b`.
 
 
 
