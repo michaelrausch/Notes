@@ -69,6 +69,24 @@ int foo[] {1, 2, 3};
 
 Static arrays, and those declared directly in a namespace (outside any function) are always initialized. If no explicit initializer is specified, all the elements are default-initialized (with zeroes, for fundamental types).
 
+## Using `new`
+
+It is possible to create a new Array using the `new` keyword.
+
+```C++
+ int* array = new int[n];
+```
+
+Keep in mind with the following syntax.
+
+It declares a pointer to a dynamic array of type `int` and size `n`. `new` allocates memory of size equal to `sizeof(int) * n` bytes and return the memory which is stored by the variable array. Also, since the memory is dynamically allocated using `new`, you should deallocate it manually.
+
+```C++
+delete []array;
+```
+
+Otherwise, your program will leak memory of at least `sizeof(int) * n` bytes (possibly more, depending on the allocation strategy used by the implementation).
+
 ## Character arrays
 
 A string is a collection of characters. There are two types of strings commonly used in C++.
@@ -150,3 +168,107 @@ char century [100][365][24][60][60];
 ```
 
 declares an array with an element of type `char` for each second in a century. Therefore the total amount of elements being $100 * 365 * 24 * 60 * 60 = 3153600000$ `char` elements. This means 3153600000 * 1 byte is required, i.e. 3.1536 Gigabytes!
+
+## Multidimensional Array Example
+
+In C++ a multidimensional array can be created with mutliple ways, the following are different ways to accomplish it.
+
+```C++
+data_type array_name[size1][size2]....[sizeN];
+
+datatype array_name[size1][size2] = {{1, ..., size2}, ...}
+```
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+class Matrix
+{
+    int d1;
+    int d2;
+    int** matrix;
+    
+    public:
+            Matrix(int d1, int d2): d1(d1), d2(d2) {
+                cout << "Creating a matrix of size " << d1 << " by " << d2 << endl;
+                matrix = new int* [d1];
+                for(int i=0; i < d1; i++){
+                    matrix[i] = new int[d2];
+                }
+            }
+            
+            ~Matrix(){
+                cout << "Destructor called" << endl;
+                for(int i = 0; i < d1; i++){
+                    delete matrix[i];
+                }
+                delete matrix;
+            }
+};
+
+int main(void)
+{
+    Matrix m = Matrix(5, 10);
+    
+    int a[5][10];
+    int d[3][4] = {{0,1,2,3}, {4,5,6,7}, {8,9,10,11}};
+}
+```
+
+A visualization of `int ** matrix = new int * [d1]`.
+
+![](./images/arrays4.jpeg)
+
+# Are Arrays Pointers?
+
+Firstly, I will demonstrate a code snippet demonstrating the error.
+
+```C++
+int main()
+{
+    int a[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int *p = a;
+    cout << *p;
+}
+```
+
+Prior to the implicit conversion introduced in C++ 11, this will throw the error `cannot convert 'int (*)[10]' to 'int*' in initialization`.
+
+Let's get the important stuff out of the way first: **arrays are not pointers**. Array types and pointer types are completely different things and are treated differently by the compiler.
+
+At runtime, a pointer is a "just a pointer" regardless of what it points to, the difference is a semantic one; pointer-to-array conveys a different meaning (to the compiler) compared with pointer-to-element.
+
+When dealing with a pointer-to-array, **you are pointing to an array of a specified size** - and the compiler will ensure that you can only point-to an array of that size.
+
+i.e. this code will compile
+
+```C++
+int theArray[5];
+int (*ptrToArray)[5];
+ptrToArray = &theArray;    // OK
+```
+
+because we have created a pointer to point an `int` array containing 5 elements. It will then point to `intArray`, which is an Array of 5 `int` elements.
+
+But this will break,
+
+```C++
+int anotherArray[10];
+int (*ptrToArray)[5];
+ptrToArray = &anotherArray;    // ERROR!
+```
+
+as the pointer `ptrToArray` will only successfully point to an `int` array **that contains 5 elements**. Whereas, `anotherArray` holds 10.
+
+When dealing with a pointer-to-element, you may point to any object in memory with a matching type. (It doesn't necessarily even need to be in an array; the compiler will not make any assumptions or restrict you in any way), e.g.
+
+```C++
+int theArray[5];
+int* ptrToElement = &theArray[0];  // OK - Pointer-to element 0
+```
+
+It is important to note that `int* ptrToElement = theArray;` will still work, **but it is not pointing to the Array**, instead an implicit conversion is performed. `int* ptrToElement = theArray;` is just shorthand for `int* ptrToElement = &theArray[0];` They both do exactly the same thing.
+
+In summary, the data type `int*` does not imply any knowledge of an array, however the data type `int (*)[5]` implies an array, which must contain exactly 5 elements.
