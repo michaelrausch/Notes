@@ -412,3 +412,136 @@ int main(void)
     Matrix m = Matrix(5, 10);
 }
 ```
+
+# Operator Overloading
+
+To define an additional task to an operator, we must specify what it means in relation to the class to which the operator is applied. This is done with the help of a special function, called operator function, which describes the task. The general form of an operator function is,
+
+```C++
+return_type classname::operator op(args)
+{
+    function body
+}
+```
+
+where `return_type` is the type of the value returned by the specified operation and `op` is the operator being overloaded. The `op` is preceded by the keyword `operator`. `operator op` is the function name.
+
+Operator functions must be either member functions (non-static) or `friend` functions. For member functions, the object used to invoke the member function is passed implicitly and therefore available for the member function. This is not the case with `friend` functions, arguments may be passed either by value or by reference. Operator functions are declared in the class using prototypes, such as;
+
+```C++
+vector operator +(vector);   // vector addition
+vector operato -();         // unary minus
+friend vector operator +(vector, vector);
+friend vector operator -(vector, vector);
+vector operator -(vector &a) //subtraction
+int operator ==(vector);     // comparison
+friend int operator ==(vector, vector) // comparison
+```
+
+## Overloading Unary Operators
+
+Unary operators are operators which are used to calculate the result on only one operand, examples include `-`, `+`, `++`, `--`, `!`, and `&`. An example usage is `-x`.
+
+Let us consider the unary minus operator. A minus operator when used as a unary takes just one operand. We know that this operator changes the sign of an operand when applied to a basic data item. We will see here how to overload this operator so that it can be applied to an object in much the same way as is applied to an `int` or `float`. The unary minus when applied to an object should change the sign of each of it's data items.
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+class Point
+{
+    int x;
+    int y;
+    int z;
+    
+    public:
+            Point(int x, int y, int z): x(x), y(y), z(z){}
+            
+            void operator -(); // Overload unary minus
+            
+            void print()
+            {
+                cout << x << ", " << y << ", " << z << endl;
+            }
+};
+
+void Point::operator -()
+{
+    x = -x;
+    y = -y;
+    z = -z;
+}
+
+int main()
+{
+    Point p(1, 2, 3);
+    p.print();    // 1, 2, 3
+    -p;           // Invokes operator -();
+    p.print();    // -1, -2, -3
+    return 0;
+}
+```
+
+The function `operation -()` takes no arguments. It changes the sign of data members of the object `s`. Since this function is a member function of the same class, it can directly access the members of the object when activiated.
+
+Remember a statement like,
+
+```C++
+s2 = -s1;
+```
+will **not work** because the function `operator -()` does not return any value. It can work if the function is modified to return an object.
+
+It is possible to overload a unary minus operator using a `friend` function as follows.
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+class Point
+{
+    int x;
+    int y;
+    int z;
+    
+    public:
+            Point(int x, int y, int z): x(x), y(y), z(z){}
+            
+            friend void operator -(Point &); // Declaration
+            
+            void print()
+            {
+                cout << x << ", " << y << ", " << z << endl;
+            }
+};
+
+void operator -(Point &p)
+{
+    p.x = -p.x; // - is invoked on the `int`, not causing a recursive problem.
+    p.y = -p.y;
+    p.z = -p.z;
+}
+
+int main()
+{
+    Point p(1, 2, 3);
+    p.print();    // 1, 2, 3
+    -p;           // Invokes operator -();
+    p.print();    // -1, -2, -3
+    return 0;
+}
+```
+
+The above invocation statement is equivalent to 
+
+```C++
+p.operator -();
+```
+
+because in the end, it is still a function that is called a different way via syntax sugar.
+
+**Note:** The argument is passed by **reference**. It will not work if we pass the argument by value because only the copy of the object that activied the call is passed to `operator -()`, therefore the changes made inside the operator function will not reflect in the called object.
+
+
+
