@@ -543,5 +543,232 @@ because in the end, it is still a function that is called a different way via sy
 
 **Note:** The argument is passed by **reference**. It will not work if we pass the argument by value because only the copy of the object that activied the call is passed to `operator -()`, therefore the changes made inside the operator function will not reflect in the called object.
 
+# Inheritance
 
+## Defining Derived Classes
 
+A derived class can be defined by specifying its relationship with the base class in addition to its own details. The general form of defining a derived class is,
+
+```C++
+class DerivedClassName: visibility-mode BaseClassName
+{
+    // Normal Class description
+    ...
+    ...
+    ...
+}
+```
+
+The colon indicates that the `DerivedClassName` is derived from the `BaseClassName`. The `visibility-mode` is optional and if present may be either `private` or `public`. The default `visibility-mode` is private. Visibility mode specifies whether the features of the base class are privately derived or publicly derived.
+
+Examples include,
+
+```C++
+class ABC: private XYZ // private derivation
+{
+    ...
+};
+```
+
+```C++
+class ABC: public XYZ // public derivation
+{
+    ...
+};
+```
+
+```C++
+class ABC: XYZ // private derivation by default
+{
+    ...
+};
+```
+
+When a base class is privately inherited by a derived class, `public` and `protected` members of the base class become `private` members of the derived class and therefore the `public` members of the base class can only be the member functions of the derived class. They are inaccessible to the objects of the derived class. Remember, a public member of a class can be accessed by its own object using the `.` operator.
+
+On the other hand, when the base is publicly inherited, `public` and `protected` members of the base class become `public` members of the derived class and therefore they are accessible to the objects of the derived class. 
+
+In both cases, the `private` members are not inherited and therefore, the `private` members of a base class will never become the members of its derived class.
+
+## Making a `private` Member Inheritable (`protected`)
+
+We have just seen how to increase the capabilities of an existing class without modifying it. We have also seen that a `private` member of a base class cannot be inherited and therefore it is not available for the derived class directly. What do we do if the private data needs to be inherited by a derived class? This can be accomplished by modifying the visibility limit of the `private` member by making it `public`. This would make it accessible to all the other functions of the program, thus taking away the advantage of data hiding.
+
+C++ provides a third visibiity modifier, `protected`, which serve a limited purpose in inheritance. A member declared as `protected` is accessible by the member functions within its class and any class **immediately derived** from it. It cannot be accessed by the functions outside these two classes. A class can now use all the three visibility modes as illustrated below:
+
+```C++
+class Alpha
+{
+    private:   // Optional text
+        ...    // Visible to member functions
+        ...    // within its class
+    protected:
+        ...    // Visible to member functions of
+        ...    // its own and immediately derived class
+    public:
+        ...   // Visible to all functions
+        ...   // in the program
+}
+```
+
+When a `protected` member is inherited in `public` mode, it comes `protected` in the derived class too and therefore is accessible by the member functions of the derived class. It is also ready for further inheritance.
+
+A `protected` member inherited in `private` derivation becomes `private` in the derived class. Although it is available to the members functions of the derived class, it is not available for further inheritance since `private` members cannot be inherited.
+
+![](./images/inheritance.jpeg)
+
+The keywords `private`, `protected` and `public` may appear in any order and any number of times in the declaration of a class, e.g.
+
+```C++
+class Beta
+{
+    protected:
+        ...
+    public:
+        ...
+    private:
+        ...
+    public:
+        ...
+}
+```
+
+is a valid class definition. However, the normal practice is to use them as follows,
+
+```C++
+class Beta
+{
+    ... // private by default
+    ...
+    protected:
+        ...
+    public:
+        ...
+}
+```
+
+It is also possible to inherit  a base class in `protected` mode (known as `protected` derivation). In `protected` derivation, both the `public` and `protected` members of of the base class become `protected` members of the derived class.
+
+![](./images/inheritance_table.jpeg)
+
+## Multiple Inheritance
+
+The syntax of a derived class with multiple base classes is as follows,
+
+```C++
+class D: visibility Base1, visibility Base2, ...
+{
+    ...
+    ...
+    ...
+}
+    
+```
+
+where, `visibility` may either be `private`, `public` or `protected`.
+
+## Ambiguity Resolution in Inheritance
+
+Occassionally, we may force a problem in using multiple inheritance, when a function with the same name appears in more than one base class, e.g.
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+class A
+{
+    public:
+        void display()
+        {
+            cout << "Inside Class A" << endl;
+        }
+};
+
+class B
+{
+    public:
+        void display()
+        {
+            cout << "Inside Class B" << endl;
+        }
+};
+
+class C: public A, public B
+{
+    public:
+        void display()
+        {
+            A::display();
+            B::display();
+            cout << "Inside Class C" << endl;
+        }
+};
+
+int main()
+{
+    C c;
+    c.display();
+    c.A::display();
+    return 0;
+}
+
+```
+
+We may ask, which `display` function is used by the derived class `C` when we inherit both `A` and `B`?
+
+We can solve this problem by defining a named instance within the derived class, using the resolution operator with the function as shown below.
+
+```C++
+        void display()
+        {
+            A::display();
+            B::display();
+            cout << "Inside Class C" << endl;
+        }
+```
+
+When calling the function on the object, the syntax will instead become `c.A::display();`.
+
+**Note:** Adding only `display()` inside the `display()` function for the class `C` will recursive call itself and cause an infinite loop.
+
+# `virtual` Functions
+
+A `virtual` function is a member function which is **declared within a base class and is re-defined `overriden` by a derived class**. When you refer to a derived class object using a pointer or a reference to the base class, you can call a `virtual` function for that object and execute the derived class's version of the function, e.g.
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+class Animal
+{
+    public:
+        virtual void eat()
+        {
+            cout << "I am eating generic food" << endl;
+        }
+};
+
+class Cat: public Animal
+{
+    public:
+        void eat()
+        {
+            cout << "I am eating cat food" << endl;
+        }
+};
+
+int main()
+{
+    Animal animal;
+    animal.eat();  // I am eating generic food
+    
+    Cat cat;
+    cat.eat();     // I am eating cat food
+    
+    Animal hybrid = Cat();
+    hybrid.eat();  // I am eating generic food
+    return 0;
+}
+```
