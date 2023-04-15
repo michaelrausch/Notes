@@ -840,3 +840,64 @@ int main() {
 The constructors for `virtual` base classes are invoked before any non-virtual base classes. If there are multiple `virtual` base classes, they are invoked in the order in which they are declared. Any non-virtual bases are then constructed before the derived class constructor is executed.
 
 ![](./images/virtual_inheritance.jpeg)
+
+# Initialization List
+
+C++ supports another method of initializing the class objects. This method uses what is known as an initialization list in the constructor function. It takes the following form,
+
+```C++
+Constructor(arglist): initialization-section
+{
+    assignment-section
+}
+```
+
+The `assignment-section` is nothing but the body of the constructor function and is used to assign initial values to its data members. The part immediately following the colon is known as the initialization section. We can use this section to provide initial values to the base constructors and also to initialize its own class members. This means that we can use either of the sections to initialize the data members of the constructors class. The initialization section basically contains a list of initializations seperated by commas. This list is known as initialization list, e.g.
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+class Example
+{
+    int a;
+    int b;
+
+    public:
+            Example(int a, int b): a(a), b(2 * b){} 
+            
+            void display()
+            {
+                cout << "a = " << a << endl;
+                cout << "b = " << b << endl;
+            }
+    
+};
+
+int main() {
+    Example e(1, 2);
+    e.display();
+    /*
+    a = 1
+    b = 4
+    */
+}
+```
+
+The initialization list in this example will set the `private` members `a` to the given argument `a`, i.e
+
+```C++
+Example(int a, int b): a(a), b(2 * b){}
+```
+
+is equivalent to,
+
+```C++
+Example(int a, int b): a(a), b(2 * b){
+    this->a = a;
+    this->b = 2 * b;
+} 
+```
+
+However, member initialization list should always be used for performance reasoning. Remember, the **data members  are initialized in the order of declaration, independent of the order in the initialization list**.
