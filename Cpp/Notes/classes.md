@@ -541,11 +541,9 @@ p.operator -();
 
 because in the end, it is still a function that is called a different way via syntax sugar.
 
-**Note:** The argument is passed by **reference**. It will not work if we pass the argument by value because only the copy of the object that activied the call is passed to `operator -()`, therefore the changes made inside the operator function will not reflect in the called object.
+**Note:** The argument is passed by **reference**. It will not work if we pass the argument by value because only the copy of the object that activied the call is passed to `operator -()`, therefore the changes made inside the operator function will not reflect in the called object
 
-# Inheritance
-
-## Defining Derived Classes
+# Defining Derived Classes
 
 A derived class can be defined by specifying its relationship with the base class in addition to its own details. The general form of defining a derived class is,
 
@@ -590,7 +588,7 @@ On the other hand, when the base is publicly inherited, `public` and `protected`
 
 In both cases, the `private` members are not inherited and therefore, the `private` members of a base class will never become the members of its derived class.
 
-## Making a `private` Member Inheritable (`protected`)
+# Making a `private` Member Inheritable (`protected`)
 
 We have just seen how to increase the capabilities of an existing class without modifying it. We have also seen that a `private` member of a base class cannot be inherited and therefore it is not available for the derived class directly. What do we do if the private data needs to be inherited by a derived class? This can be accomplished by modifying the visibility limit of the `private` member by making it `public`. This would make it accessible to all the other functions of the program, thus taking away the advantage of data hiding.
 
@@ -651,7 +649,7 @@ It is also possible to inherit  a base class in `protected` mode (known as `prot
 
 ![](./images/inheritance_table.jpeg)
 
-## Multiple Inheritance
+# Multiple Inheritance
 
 The syntax of a derived class with multiple base classes is as follows,
 
@@ -667,7 +665,7 @@ class D: visibility Base1, visibility Base2, ...
 
 where, `visibility` may either be `private`, `public` or `protected`.
 
-## Ambiguity Resolution in Inheritance
+# Ambiguity Resolution in Inheritance
 
 Occassionally, we may force a problem in using multiple inheritance, when a function with the same name appears in more than one base class, e.g.
 
@@ -772,3 +770,73 @@ int main()
     return 0;
 }
 ```
+
+# Constructors in Derived Class
+
+As long as no base class constructor takes any arguements, the derived class does not need to have a constructor. However, if any base class contains a constructor with one or more arguments, then it is mandatory for the derived class to have a constructor and pass the arguments to the base class constructor. Remember, while applying inheritance we usually create objects using the derived class, thus it makes sense for the derived class to pass arguments to the base class constructor. When both the derived and base classes contain construcotrs, **the base class is executed first** and then the constructor in the derived class is executed.
+
+In the case of multiple inheritance, the base classes are constructed in the order in which they appear in the declaration of the derived class. Similarily, in a multilevel inheritance, the constructors will be executed in the order of inheritance.
+
+The constructor of the derived class receives the entire list of values as its arguments and passes them on to the base constructors **in the order in which they are declared in the derived class**. The base constructor are called and executed before executing the statements in the body of the derived constructor.
+
+The general form is,
+
+```C++
+DerivedConstructor:
+        base1(arg_list1);
+        base2(arglist2);
+        ...
+        baseN(arglistN);
+        {
+            Body of Derived Constructor;
+        }
+```
+
+The following is a working code example, where `Derived` inherits from `B1` and `B2`. `Derived` will call the constructor for `B1` prior to `B2` because it is declared first during the inheritance structure.
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+class B1
+{
+    public:
+        B1(int a, int b)
+        {
+            cout << "Calling B1 constructor with parameters " << a << " and " << b << endl;      
+        }
+};
+
+class B2
+{
+    public:
+        B2(float c, float d)
+        {
+            cout << "Calling B2 constructor with parameters " << c << " and  " << d << endl;
+        }
+};
+
+class Derived: public B1, public B2
+{
+    public:
+        //                                       Calls B1 constructor, then B2.
+        Derived(int a, int b, float c, float d): B1(a, b), B2(c, d){
+            cout << "Calling Derived constructor" << endl;
+        }
+};
+
+int main() {
+    Derived(1, 2, 3.14, 5.5);
+    
+    /*
+    Calling B1 constructor with parameters 1 and 2
+    Calling B2 constructor with parameters 3.14 and  5.5
+    Calling Derived constructor
+    */
+}
+```
+
+The constructors for `virtual` base classes are invoked before any non-virtual base classes. If there are multiple `virtual` base classes, they are invoked in the order in which they are declared. Any non-virtual bases are then constructed before the derived class constructor is executed.
+
+![](./images/virtual_inheritance.jpeg)
