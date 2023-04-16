@@ -730,6 +730,80 @@ When calling the function on the object, the syntax will instead become `c.A::di
 
 **Note:** Adding only `display()` inside the `display()` function for the class `C` will recursive call itself and cause an infinite loop.
 
+# Object Types Affecting Property Retrieval
+
+When we create objects, we need to specify the object type on the left hand, but the object creation on the right.
+
+The following code below demonstrates a small class called `Animal` and another class `Cat`, where `Cat` is the derived class and `Animal` is the base class. This means that all objects of `Cat` are `Animal`, but not every `Animal` is a `Cat`.
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+class Animal
+{
+    public:
+        int animal_property = 20;
+};
+
+class Cat: public Animal
+{
+    public:
+        int cat_property = 10;
+};
+
+int main()
+{
+    Animal animal = Animal();
+    cout << "animal_property = " << animal.animal_property << endl;
+    
+    Cat cat = Cat();
+    cout << "cat_property = " << cat.cat_property << endl;
+    cout << "animal_property = " << cat.animal_property << endl;
+    
+    Animal hybrid = Cat();
+    /*
+    The following line will not work and cause a compilation error.
+    
+    cout << "Cat object with Animal type, retrieving cat property" << hybrid.cat_property << endl;
+    */
+    return 0;
+}
+```
+
+There are three types of object construction here,
+
+The first being,
+
+```C++
+Animal animal = Animal();
+```
+
+In this example, the object itself is of type `Animal` and it set to being type `Animal` from the lefthand side. This means the object can only access attributes from the class `Animal`, for example, it can only access the member property `animal_property`.
+
+The second object creation is the following,
+
+```C++
+Cat cat = Cat();
+```
+
+This object is a `Cat()` with the specified type `Cat`. This means it can access all properties of the `Cat` class and the `Animal` class, meaning it can freely access `cat_property` and `animal_property`.
+
+The third object creation is a bit more interesting,
+
+```C++
+Animal hybrid = Cat();
+```
+
+This example is referred to as **object slicing**. [Object slicing](https://stackoverflow.com/questions/274626/what-is-object-slicing) is used to describe the situation when you assign an object of a derived class to an instance of a base class. This causes a loss of methods and member variables for the derived class object. This is termed as information being sliced away.
+
+The following line will not work, as every `Animal()` cannot be a `Cat`.
+
+```C++
+Cat error = Animal();
+```
+
 # `virtual` Functions
 
 A `virtual` function is a member function which is **declared within a base class and is re-defined `overriden` by a derived class**. When you refer to a derived class object using a pointer or a reference to the base class, you can call a `virtual` function for that object and execute the derived class's version of the function, e.g.
@@ -901,3 +975,30 @@ Example(int a, int b): a(a), b(2 * b){
 ```
 
 However, member initialization list should always be used for performance reasoning. Remember, the **data members  are initialized in the order of declaration, independent of the order in the initialization list**.
+
+# `this` Pointer
+
+C++ uses a unique keyword called `this` to represent an object that invokes a member function. `this` is a pointer that points to the object for which `this` function was called, similiar to `self` in Python. For example, the function called `A.max()` will set the pointer `this` to the address of the object `A`.
+
+The unique pointer is automatically passed to a member function when it is called. The pointer `this` acts as an implicit argument to all member functions. Consider the following example,
+
+```C++
+class Example
+{
+    int a;
+    ...
+}
+```
+
+The `private` variable `a` can be used directly inside a member function like,
+
+```C++
+a = 123;
+```
+
+We can also use the following statement to do the same job,
+
+```C++
+this->a = 123;
+```
+

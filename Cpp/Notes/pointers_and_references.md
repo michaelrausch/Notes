@@ -347,3 +347,59 @@ int *y = &int(12); // illegal to take the address of a temporary.
 This makes `const &` more convenient to use in argument lists and so forth.
 
 
+# Using Pointerss with Arrays and Strings
+
+Pointers are one of the efficient tools to access elements of an array. Pointers are useful to allocate arrays dynamically, i.e. we can decide the array size at run time. To achieve this, we can use functions, namely `malloc()` and `calloc()`.
+
+In general, there are some differences between pointers and arrays. **Arrays refer to a block of memory space, whereas pointers do not refer to any sectin of memory**. The memory addresses of arrays cannot be changed, whereas the content of the pointers variable, such as the memory addresses that it refers to, can be changed.
+
+Note: There is no error checking of array bounds in C++ Suppose we declare an array of size 25. The compiler issues no warnings if we attempt to access the 26th element. It is the programmers task to check the array limits.
+
+
+We can declare the pointers to arrays as follows:
+
+```C++
+int* nptr;
+nptr = numbers[0]
+```
+
+or 
+
+```C++
+nptr = number;
+```
+
+Keep in mind that `nptr` is an implicit conversion and equivalent to,
+
+```C++
+nptr = &number[0]
+```
+
+A pointer does not point to an array, it will always point to an element in the array, not the array itself.
+
+
+# Pointer Expressions and Pointer Arithmatic
+
+There are a substantial number of arithmatic operators that can be performed with pointers. C++ allows poiinters to perform the following arithmatic operations,
+
+- A pointer can be incremented with `++` and decremented with `--`
+- Any integer can be added to or subtracted from a pointer
+- One pointer can be subtracted from another
+
+Here, the pointer `aptr` refers to the base address of the variable `a`.
+
+```C++
+int a[6];
+int* aptr = &a[0];
+```
+
+We can increment the pointer variable from here, e.g.
+
+```C++
+aptr++;
+aptr--;
+```
+
+This statement moves the pointer to the next memory address and then subsequentally brings it back.
+
+We cannot perform pointer arithmatic on variables which are not stored in contiguous memory locations.

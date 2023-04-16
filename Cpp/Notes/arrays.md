@@ -16,6 +16,12 @@ There, the `foo` array, with five elements of type `int` can be declared as;
 int foo[5];
 ```
 
+Likewise, an array int integer pointers can be declared as,
+
+```C++
+int* intarray[10];
+```
+
 **Note:** The `elements` field within the square brackets [], representing the number of elements in the array, must be a constant expression, since array are blocks of static memory whose size must be determined at compile time, before the program runs.
 
 ## Initializing arrays
@@ -271,4 +277,4 @@ int* ptrToElement = &theArray[0];  // OK - Pointer-to element 0
 
 It is important to note that `int* ptrToElement = theArray;` will still work, **but it is not pointing to the Array**, instead an implicit conversion is performed. `int* ptrToElement = theArray;` is just shorthand for `int* ptrToElement = &theArray[0];` They both do exactly the same thing.
 
-In summary, the data type `int*` does not imply any knowledge of an array, however the data type `int (*)[5]` implies an array, which must contain exactly 5 elements.
+In summary, the data type `int*` does not imply any knowledge of an array, however the data type `int (*)[5]` implies an array, which must contain exactly 5 elements. An array is a section of memory, whereas a pointer is something that points to a memory address.
