@@ -1002,3 +1002,245 @@ We can also use the following statement to do the same job,
 this->a = 123;
 ```
 
+# The Rule of [0/3/5](https://stackoverflow.com/questions/4172722/what-is-the-rule-of-three#:~:text=The%20rule%20of%203%2F5,functions%20when%20creating%20your%20class.)
+
+## Introduction
+
+C++ treats variables of user-defined types with *value* semantics. This means that objects are implicitly copied in various contexts, we need to understand what "copying an object" actually means.
+
+Let us consider an example,
+
+```C++
+class Person
+{
+    std::string name;
+    int age;
+
+public:
+
+    Person(const std::string& name, int age) : name(name), age(age)
+    {
+
+    }
+};
+
+int main()
+{
+    Person a("Bjarne Stroustrup", 60);
+    Person b(a);   // What happens here?
+    b = a;         // And here?
+}
+```
+
+## Special Member Functions
+
+What does it mean to copy a `Person` object? The `main` function shows two distinct copying scenarios. The initialization `Person b(a);` is performed by the **copy constructor**. Its job is to construct a fresh object based on the state of an existing object. The assignment `b = a;` is performed by the **copy assignment operator**. Its job is generally a little more complicated because the target object is already in some valid state that needs to be dealt with.
+
+In this example, we did not declare either the copy constructor or the assignment operator. These are therefore implicitly defined for us. Here is a quote from the standard,
+
+
+> The [...] copy constructor and copy assignment operator, [...] and destructor are special member functions. [ Note: The implementation will implicitly declare these member functions for some class types when the program does not explicitly declare them. The implementation will implicitly define them if they are used. [...] end note ] [n3126.pdf section 12 §1]
+
+By default, copying an object means copying its members:
+
+> The implicitly-defined copy constructor for a non-union class X performs a memberwise copy of its subobjects. [n3126.pdf section 12.8 §16]
+
+
+> The implicitly-defined copy assignment operator for a non-union class X performs memberwise copy assignment of its subobjects. [n3126.pdf section 12.8 §30]
+
+
+## Implicit Definitions
+
+The implicitly-defined special member functions for `Person` look like this:
+
+```C++
+// 1. copy constructor
+Person(const Person& that) : name(that.name), age(that.age)
+{
+
+}
+
+// 2. copy assignment operator
+Person& operator=(const Person& that)
+{
+    name = that.name;
+    age = that.age;
+    return *this;
+}
+
+// 3. destructor
+~Person()
+{
+
+}
+```
+
+Memberwise copying is exactly what we want in this case, `name` and `age` are copied, so we get a self-contained, independent `Person` object. 
+
+For example if I were to print the memory address of the objects when created,
+
+```C++
+int main()
+{
+    Person a("Bjarne Stroustrup", 60);
+    cout << &a << endl;  // 0x7fff9166fb60
+    
+    Person b(a);         // Copy constructor
+    cout << &b << endl;  // 0x7fff9166fb90
+    
+    b = a;               // Copy assignment operator 
+    cout << &b << endl;  // 0x7fff9166fb90
+}
+```
+
+We can see that `Person a("Bjarne Stroustrup", 60);` and `Person b(a); ` which call the constructor and copy-constructor, both return **new objects**. Whereas the copy assignment operator `Person b(a);` performs the action of copying over the members, but does not change the memory address location of `b` to point to a new object.
+
+The implicitly defined destructor is always empty. This is also fine in this case since we did not acquire any resources in the constructor. The members destructors are implicitly called after the `Person` destructor is finished.
+
+> After executing the body of the destructor and destroying any automatic objects allocated within the body, a destructor for class X calls the destructors for X's direct [...] members [n3126.pdf 12.4 §6]
+
+
+## Managing Resources
+
+So when should we declare those special member functions explicitly? When our class *manages a resource*, that is, when an object of the class is *responsible* for that resource. That usually means the resource is acquired in the constructor (or passed into the constructor) and *released* in the destructor.
+
+Let us go back in time to pre-standard C++. There was no such thing as `std::string` and programmers were in love with pointers. The `Person` class might have looked like this.
+
+```C++
+class Person
+{
+    char* name;
+    int age;
+
+public:
+
+    // The constructor acquires a resource,
+    // in this case, dynamic memory obtained via new[]
+    Person(const char* the_name, int the_age)
+    {
+        name = new char[strlen(the_name) + 1];
+        strcpy(name, the_name);
+        age = the_age;
+    }
+
+    // The destructor must release this resource via delete[]
+    ~Person()
+    {
+        delete[] name;
+    }
+};
+```
+
+Even today, people still write classes in this style and get in trouble: "I pushed a `Person` into a `Vector` and now I am getting crazy memory errors!". Remember that by default, copying an object means copying its members, but copying the `name` merely **copies a pointer, not the character array it points to!** This has several unpleasant effects,
+
+- Changes via `a` can be observed in `b`
+- Once `b` is destroyed, `a.name` is a dangling pointer
+- If `a` is destroyed, deleting the dangling pointer yields undefined behaviour.
+- Since the assignent does not into account what `name` pointed to before the assignment, sooner or later you will get memory leaks all over the place.
+
+## Explicit definitions
+
+Since memberwise copying does not have the desired effect, we must define the copy constructor and the copy assignment operator explicitly to make deep copies of the character array.
+
+```C++
+// 1. copy constructor
+Person(const Person& that)
+{
+    name = new char[strlen(that.name) + 1];
+    strcpy(name, that.name);
+    age = that.age;
+}
+
+// 2. copy assignment operator
+Person& operator=(const Person& that)
+{
+    if (this != &that)
+    {
+        delete[] name;
+        // This is a dangerous point in the flow of execution!
+        // We have temporarily invalidated the class invariants,
+        // and the next statement might throw an exception,
+        // leaving the object in an invalid state :(
+        name = new char[strlen(that.name) + 1];
+        strcpy(name, that.name);
+        age = that.age;
+    }
+    return *this;
+}
+```
+
+Note the difference between initialization and assignment, we must tear down the old state before assigning it to `name` to prevent memory leaks. Also, we have to protect against the self-assignment form of `x = x;`. Without that check, `delete[] name` would delete the array containing the *source* string, because when you write `x = x`, both `this->name` and `that.name` contain the same pointer.
+
+## Exception safety
+
+Unfortunately the previous solution  will fail if `new char[...]` throws an exception due to memory exhaustion. One possible solution is to introduce a local variable and reorder the statements:
+
+```C++
+// 2. copy assignment operator
+Person& operator=(const Person& that)
+{
+    char* local_name = new char[strlen(that.name) + 1];
+    // If the above statement throws,
+    // the object is still in the same state as before.
+    // None of the following statements will throw an exception :)
+    strcpy(local_name, that.name);
+    delete[] name;
+    name = local_name;
+    age = that.age;
+    return *this;
+}
+```
+
+This also takes care of self-assignment without an explicit check. An even more robust solution to this problem is the [copy-and-swap idiom](https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom), but I will not go into the details of exception safety here. I only mentioned exceptions to make the following point: **Writing classes that manage resources is hard**.
+
+## Noncopyable resources
+
+Some resources cannot or should not be copied, such as file handles or mutexes. In that case, simply declare the copy constructor and copy assignment operator as `private` without giving a definition:
+
+```C++
+private:
+
+    Person(const Person& that);
+    Person& operator=(const Person& that);
+```
+
+Alternatively, you can inherit from `boost::noncopyable` or declare them as deleted (in C++11 and above):
+
+```C++
+Person(const Person& that) = delete;
+Person& operator=(const Person& that) = delete;
+```
+
+## The Rule of Three
+
+Sometimes you need to implement a class that manages a resource. (Never manage multiple resources in a single class, this will only lead to pain.) In that case, remember the **rule of three**:
+
+> If you need to explicitly declare either the destructor, copy constructor or copy assignment operator yourself, you probably need to explicitly declare all three of them.
+
+Unfortunately, this "rule" is not enforced by the C++ standard or any compiler I am aware of.
+
+## The Rule of Five
+
+From C++11 on, an object has 2 extra special member functions: the move constructor and move assignment. The rule of five states to implement these functions as well.
+
+An example with the signatures,
+
+```C++
+class Person
+{
+    std::string name;
+    int age;
+
+public:
+    Person(const std::string& name, int age);        // Constructor
+    Person(const Person &) = default;                // 1/5: Copy Constructor
+    Person(Person &&) noexcept = default;            // 4/5: Move Constructor
+    Person& operator=(const Person &) = default;     // 2/5: Copy Assignment
+    Person& operator=(Person &&) noexcept = default; // 5/5: Move Assignment
+    ~Person() noexcept = default;                    // 3/5: Destructor
+};
+```
+
+## The Rule of Zero
+
+The rule of 3/5 is also referred to as the rule of 0/3/5. The zero part of the rule states that you are allowed to not write any of the special member functions when creating your class.
