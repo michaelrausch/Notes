@@ -1244,3 +1244,37 @@ public:
 ## The Rule of Zero
 
 The rule of 3/5 is also referred to as the rule of 0/3/5. The zero part of the rule states that you are allowed to not write any of the special member functions when creating your class.
+
+# `explicit`
+
+The `explicit` keyword is used to declare class constructors to be `explicit` constructors. Any constructor called with one argument performs an implicit conversion, in which the type received by the constructor is converted to an object of the class in which the constructor is defined.
+
+Since conversion is automatic, we do not need to apply any casting. In case, we do not want such automatic conversion to take place, we may do so by declaring the one-argument constructor as explicit.
+
+
+```C++
+class Example
+{
+    int m;
+
+    public:
+            explicit Example(int i) // Constructor
+            {
+                m = i;
+            }
+}
+```
+
+Here, objects of `Example` can be created using only the following form,
+
+```C++
+Example e(100);
+```
+
+The automatic conversion from,
+
+```C++
+Example e = 100;
+```
+
+is not allowed and illegal. Remember, this form is permitted when the keyword `explicit` is not applied to the conversion.
