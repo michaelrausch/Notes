@@ -1002,6 +1002,36 @@ We can also use the following statement to do the same job,
 this->a = 123;
 ```
 
+# Making a Class `final`
+
+When the keyword `final` is used, it is to prevent a class from being inherited.
+
+```C++
+struct Base1 final { };
+
+struct Derived : Base1{ }; // ill formed, compiler error
+```
+
+It is also used to mark a virtual function so as to prevent it from being overridden in the derived class.
+
+```C++
+struct Base2 {
+    virtual void f() final;
+}
+
+struct Derived2 : Base2 {
+    void f(); // ill formed, compiler error
+}
+```
+
+Note that neither `override` and `final` are language keywords. They are technically identifiers. They only gain special meaning when used in those specific contexts. In any other location, they can be valid identifiers. This means the following is allowed,
+
+```C++
+int const final = 0;
+int const override = 1;
+cout << final << " " << override << endl;
+```
+
 # The Rule of [0/3/5](https://stackoverflow.com/questions/4172722/what-is-the-rule-of-three#:~:text=The%20rule%20of%203%2F5,functions%20when%20creating%20your%20class.)
 
 ## Introduction
