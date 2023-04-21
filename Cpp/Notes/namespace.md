@@ -6,7 +6,35 @@ We have been defining variables in different scopes in C++ programs, such as cla
 using namespace std;
 ```
 
-in our programs that use the standard library. The `using namespace` statement specifies that the members defined in `std` namespace **are moved to the global namespace** and will be used frequently throughout the program.
+in our programs that use the standard library. The `using namespace` statement specifies that the members defined in `std` namespace **are moved to the global namespace** and will be used frequently throughout the program. `cout` and `cin` are frequent examples of this and they're objects (not functions) defined inside the `std` namespace. Here are their declarations as defined by the C++ standard.
+
+Header `<iostream>` synopsis,
+
+```C++
+#include <ios>
+#include <streambuf>
+#include <istream>
+#include <ostream>
+
+namespace std {
+    extern istream cin;
+    extern ostream cout;
+    extern ostream err;
+    ...
+}
+
+```
+
+Hence, these two lines are frequently used together,
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+...
+```
+
 
 # Defining a Namespace
 
