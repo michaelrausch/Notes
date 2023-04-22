@@ -2,7 +2,7 @@
 
 If I have a CMake-library `add_library(libhelper helper.cpp)` and I want to include the source files via `target_include_directories`. Then I have to choose between the parameters `PRIVATE`, `PUBLIC` and `INTERFACE`. Here, I will explain the difference.
 
-`Private` - The includes can **only** be used by the `libhelper`-library itself.
+`PRIVATE` - The includes can **only** be used by the `libhelper`-library itself.
 
 `PUBLIC` - The includes can be used by the `libhelper`-library itself **and** any target that uses the `libhelper`-library, e.g. via `target_link_libraries(MainApplication PUBLIC libhelpers)`.
 
