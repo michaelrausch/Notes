@@ -215,6 +215,47 @@ int main()
 
 ```
 
+# Member Initialization List
+
+![](./images/MIL.png)
+
+`Foo(int num) : bar(num);` is the construct called the Member Initialization List, it happens afterwards the `:`. Simply said, it initializes the member `bar` to the value `num`.
+
+#### Member Initialization List
+
+```C++
+Foo(int num) : bar(num)
+{
+
+};
+```
+
+#### Member Assignment
+
+```C++
+Foo(int num)
+{
+    bar = num;
+}
+```
+
+#### Difference
+
+There is a significant difference between the two styles.
+
+When you initialize fields via the Member Initialization List, the constructors will be called once and the object will be constructed and initialized in one operation.
+
+`Cost of Member Initialization = Object Construction`
+
+If you use assignment, then the fields will be first initialized with default constructors and then reassigned (via assignment operator) with actual values.
+
+`Cost of Member Assignment = Object Construction + Assignment`
+
+There is an additional overhead of creation and assignment in the latter, which might be considerable for user defined classes.
+
+An additional important note is that class member variables are always **initialized in the order in which they are declared in the class, they are not initialized in the order specified in the Member Initialization List**.
+
+
 # Friendly Functions
 
 We have been emphasizing throughout that private members cannot be accessed from outside the class. That is, a non-member function cannot have an access to the private data of a class. However, there could be a situation where two classes want to share a particular function that operates on both classes. In such situations, C++ allows the common function to be made *friendly* with both classes, thereby allowing the function to have **access to private data of these classes**. Such a function need not be a member of any of these classes.
