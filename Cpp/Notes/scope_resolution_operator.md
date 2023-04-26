@@ -109,10 +109,35 @@ int main()
 
 Here, the SRO will be used to find the function `Example` defined inside the scope `Example`. This is crucial because it is valid to define a function in the global scope. Simply calling `Example(100);` will look for any definiton in the global scope, here, we are telling the compiler to look into the scope `Example` and define the function `Example`.
 
-# Example
+#### Example
 
 ```C++
 ::mediapipe::Status RunMPPGraph()
 ```
 
 `RnuMMPGraph` is a function taking zero arguments and returning `::mediapipe::Status`. `Status` is a type defined in the `mediapipe` namespace which is defined in the global namespace.
+
+#### Example
+
+To access an STL iterator, you need a scope resolution operator and not the `.` operator.
+
+
+ Hence,
+
+```C++
+vector<int>::iterator my_iterator;
+```
+
+and not
+
+```C++
+vector<int> numbers;
+numbers.iterator;
+```
+
+
+Dot and arrow (`->`) operators are used to access all data (member variables, functions) that is specific to the given instance.
+
+Scope resolution operator is used to access all data (static member variables, static functions, types) that is specific to the given type, not instance. Note that member types are never instance-specific so you will always use `type::member_type` to access them.
+
+Hence, because `vector<int>` is a type, not a variable, the scope resolution operator is used.
