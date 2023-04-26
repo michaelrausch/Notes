@@ -140,4 +140,4 @@ Dot and arrow (`->`) operators are used to access all data (member variables, fu
 
 Scope resolution operator is used to access all data (static member variables, static functions, types) that is specific to the given type, not instance. Note that member types are never instance-specific so you will always use `type::member_type` to access them.
 
-Hence, because `vector<int>` is a type, not a variable, the scope resolution operator is used.
+Hence, because `vector<int>` (and `vector<int>::iterator`) is a type, not a variable, the scope resolution operator is used.
