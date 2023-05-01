@@ -47,5 +47,5 @@ It is **crucial** to understand that it is possible for threads in Python to run
 
 # Task manager analysis
 
-It is important to know that **each thread that only run on a single CPU core**. Therefore if we open up task manager we can determine if we are IO Bound but analyzing CPU usage when executing multi-threading code. If the CPU usage is much higher than running synchronous code, it means that multiple threads are working in parallel. Meaning it is spending a lot of time reading/writing files in some threads while the GIL thread is still executing, leading to a much higher CPU usage.
+It is important to know that **each thread that can only run on a single CPU core**. Therefore if we open up task manager we can determine if we are IO Bound but analyzing CPU usage when executing multi-threading code. If the CPU usage is much higher than running synchronous code, it means that multiple threads are working in parallel. Meaning it is spending a lot of time reading/writing files in some threads while the GIL thread is still executing, leading to a much higher CPU usage.
 
