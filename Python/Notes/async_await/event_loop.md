@@ -37,9 +37,7 @@ asyncio.run(main())
 
 ```
 
-When the `main` function is called, it creates a coroutine object and returns it to the event loop. The event loop schedules the execution of the `main` coroutine.
-
-When the `main` coroutine encounters the `await my_async_func()` expression, it creates a future that represents the execution of `my_async_func()` coroutine. The `main` coroutine then returns control to the event loop, which schedules the execution of the `my_async_func` coroutine, which then encounters the `await asyncio.sleep(2)` expression. This creates a future that represents the 2 second sleep operation. The `my_async_func` coroutine then returns control to the event loop.
+The function `async.run(...)` creates an event loop and accepts a coroutine. The event loop schedules the execution of the `main` coroutine. When the `main` coroutine encounters the `await my_async_func()` expression, it creates a future that represents the execution of `my_async_func()` coroutine. The `main` coroutine then returns control to the event loop, which schedules the execution of the `my_async_func` coroutine, which then encounters the `await asyncio.sleep(2)` expression. This creates a future that represents the 2 second sleep operation. The `my_async_func` coroutine then returns control to the event loop.
 
 The event loop continues running other tasks, such as scheduling other coroutines and monitoring for I/O events. Meanwhile, the `asyncio.sleep` functions uses the underlying systems capabilities to put the thread to sleep for 2 seconds.
 
