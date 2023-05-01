@@ -1,6 +1,6 @@
 # Asynchronous Event Loop
 
-In Python, the event loop is a mechanism that manages the execution of asynchronous code. The event loop is a central component of the `asyncio` library, which is built-in library for asynchronous programming in Python.
+In Python, the event loop is a mechanism that manages the execution of asynchronous code. The event loop is a central component of the `asyncio` library, which is a built-in library for asynchronous programming in Python.
 
 The event loop is responsible for scheduling the execution of asynchronous tasks and managing the flow of control between them. It uses a non-blocking I/O model, which means that it can handle multiple tasks concurrently without waiting for any of them to complete.
 
