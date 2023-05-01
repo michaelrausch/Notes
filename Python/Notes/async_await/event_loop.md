@@ -4,9 +4,9 @@ In Python, the event loop is a mechanism that manages the execution of asynchron
 
 The event loop is responsible for scheduling the execution of asynchronous tasks and managing the flow of control between them. It uses a non-blocking I/O model, which means that it can handle multiple tasks concurrently without waiting for any of them to complete.
 
-When an asynchronous function is called, it returns an asynchronous task, which is represented by a special type of object called a `coroutine`. The event loop schedules the coroutine for execution and continues running other tasks.
+When an asynchronous function is called, it returns an asynchronous task, which is represented by a special type of object called a `coroutine`. The event loop schedules the coroutine for execution and **continues running other tasks**.
 
-The `await` keyword is used inside an asynchronous function to suspend its execution until an asynchronous operation completes. When an asynchronous function encounters an `await` expression, it returns control to the event loop, allowing it to schedule other tasks. Once the awaited operation completes, the event loop resumes the execution of the asynchronous function where it left off.
+The `await` keyword is used inside an asynchronous function to suspend its execution until an asynchronous operation completes. When an asynchronous function encounters an `await` expression, **it returns control to the event loop, allowing it to schedule other tasks**. Once the awaited operation completes, the event loop resumes the execution of the asynchronous function where it left off.
 
 The `await` keyword is used to pause the execution of an asynchronous function and return control to the event loop. It does this by creating a suspension point in the function, where the function's execution can be resumed later on.
 
