@@ -124,6 +124,34 @@ using namespace NS1
 cout << NS2::m; << endl;
 ```
 
+# Namespaces in multiple files
+
+namespaces can be used alongside different files and essentially "shared". For example, if I include a 
+namespace from `.hpp` and create my own namespace with the same name within a `.cpp`, I use utilize
+the definitions from inside the namespace inside the `.hpp`. A minor example sharing a namespace could
+be,
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+namespace MyExample {
+    int a = 5;
+}
+
+namespace MyExample {
+    int b = a + 10;
+}
+
+int main()
+{
+    
+    cout << MyExample::b << endl; // 15
+    return 0;
+}
+```
+
 # Unnamed Namespaces
 
 An unnamed namespace is one that does not have a name. Unnamed namespace members occupy global scope and are **accessible in all scopes following the declaration in the file**. We can access them without using any qualification.
