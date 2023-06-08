@@ -128,8 +128,8 @@ cout << NS2::m; << endl;
 
 namespaces can be used alongside different files and essentially "shared". For example, if I include a 
 namespace from `.hpp` and create my own namespace with the same name within a `.cpp`, I use utilize
-the definitions from inside the namespace inside the `.hpp`. A minor example sharing a namespace could
-be,
+the definitions from inside the namespace inside the `.hpp`. Namespaces do not have to be unique per
+file. A minor example sharing a namespace could be,
 
 ```C++
 #include <iostream>
