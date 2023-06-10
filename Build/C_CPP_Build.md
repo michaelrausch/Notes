@@ -20,7 +20,7 @@ For example, if we have a `EndBrace.h` with the only contents being
 ```
 and use it as,
 
-```
+```C++
 int Multiply(int a, int b){
     return a * b
 #include "EndBrace.h"
