@@ -13,8 +13,4 @@ Now about transports (i.e. what `git://` means). Remote repository URLs can be o
 
 # `-u` and `--set-upstream`
 
-`git branch --set-upstream <remote-branch>` sets the default remote branch for the current local branch. Any future `git pull` command (with the current local branch checked-out) will attempt to bring in commits from the `<remote-branch>` into the current local branch.
-
-One way to avoid having to explicitly type `--set-upstream` is to use its shorthand flag `-u` as follows, `$git push -u origin local-branch`. This sets the upstream association for any future `push/pull` attempts automatically. The `-u` option does the following, for every branch that is upto date or successfully pushed, add upstream (tracking) reference, used by the argument-less `git pull` and other commands.
-
-So far pushing your local branch with `-u` option this local branch will be automatically linked with remote branch, and you can use `git pull` without any arguments.
+The most common usage of -`u` is with the git `push` command. When you use `git push -u <remote> <branch>`, you are pushing the changes in your local branch to the specified remote repository and branch, and also setting up a tracking relationship between the local branch and the upstream branch. This allows Git to remember the remote branch as the default branch to push to when you use the git push command without specifying the remote and branch names.
