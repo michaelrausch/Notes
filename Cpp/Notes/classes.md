@@ -322,14 +322,14 @@ The friend function accesses the variable `a` and `b` which are **private member
 
 # `const` Member Functions
 
-If a member function **does not alter any data in the class**, then we may declare it as a `const` member function as follows.
+If a member function **does not alter any data in the class**, then we may declare it as a `const` member function as follows. The `const` means that the method promises not to alter any members of the class
 
 ```C++
 void mul(int, int) const;
 double get_balance() const;
 ```
 
-The qualifier `const` is appended to the function prototypes (in both declaration and definition). The compiler will generate an error message if such functions try to alter the data values.
+The qualifier `const` is appended to the function prototypes (in both declaration and definition). The compiler will generate an error message if such functions try to alter any values using `this`.
 
 # `const` Objects
 
