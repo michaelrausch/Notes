@@ -64,3 +64,5 @@ AliasStruct obj;
 obj.x = 5;
 obj.y = 10;
 ```
+
+It is important to note that `Point` is not a new type, but simply an alias for `MyStruct`. It does not introduce any new memory overhead or create a separate definition.
