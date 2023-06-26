@@ -36,7 +36,7 @@ class T : Base // Same as, class T : private Base
 ```
 # Struct Alias using `using`
 
-It is possible to create an alias for the struct by using the following format,
+It is possible to create an alias for any `struct` by using the following format,
 
 ```C++
 using AliasName = struct {
