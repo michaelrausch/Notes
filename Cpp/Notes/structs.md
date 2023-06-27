@@ -34,9 +34,9 @@ class T : Base // Same as, class T : private Base
     ...
 }
 ```
-# Struct Alias using `using`
+# Struct Alias
 
-It is possible to create an alias for any `struct` by using the following format,
+It is possible to create an alias for any `struct` by using the keyword `using` following the format,
 
 ```C++
 using AliasName = struct {
@@ -66,3 +66,12 @@ obj.y = 10;
 ```
 
 It is important to note that `Point` is not a new type, but simply an alias for `MyStruct`. It does not introduce any new memory overhead or create a separate definition.
+
+An alias can also be create using the `typedef` approach, but it seen as the lessn modernized way,
+
+```C++
+typedef struct MyStruct {
+    int x;
+    int y;
+} Point;
+```
