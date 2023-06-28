@@ -94,3 +94,168 @@ To ship the Python extensions and make them compatible with as many systems symb
 By building your extension wheels inside this docker container you can ensure that you use a build environment that is compatible with the affirmentioned PEPs, making it easier to produce a complient binary. Once a wheel is created, using manylinux or not, you can inspect t using 'auditwheel'. auditwheel is a tool to enforce the symbol policies and determines if the wheel is policy compliant.
 
 ![](./images/PyPI_1.png)
+
+## Creating a Wheel
+
+Here, I will create a tiny project called `add` which will utilize the NumPy library to create a function called `add(a, b)`. My following structure is as follows,
+
+![](./images/wheel1.png)
+
+`__init__.py`
+
+```Python
+from .operations import add
+```
+
+---
+
+`operations.py`
+
+```Python
+import numpy as np
+
+
+def add(a, b):
+    return np.add(a, b)
+```
+
+----
+
+`setup.py`
+
+```Python
+from setuptools import setup
+
+setup(
+    name='add',
+    version='1.0',
+    packages=['add'],  # Import the directory 'add'
+    author='Michael Cowie',
+    description='A simple adder function using NumPy',
+    install_requires=['numpy'],
+)
+```
+
+---
+
+Here, the most important file is `setup.py`. The `setup` method comes from `setuptools` which will create our wheel from the given parameters. The parameter `packages` is used to specify packages (directories containing Python modules) that should be included in the distribution. Here, I am specifying `add`, which is the name of the directory where `operations.py` resides.
+
+`install_requires` tells us that to utilize our code, we require `NumPy`, as I will utilize their API for my functions. Meaning, installing my wheel will implicitly install `NumPy` too.
+
+The command to create the wheel is `python setup.py bdist_wheel`. This will execute the script `setup.py` with the given command line argument `bdist_wheel`. The way this command line argument is used is that inside the `setuptools` function `setup` we can see the usage of it from their source code,
+
+```Python
+if 'script_args'  not in attrs:
+    attrs['script_args'] = sys.argv[1:]
+```
+
+Afer execution of `python setup.py bdist_wheel`, the project structure will change to the following.
+
+![](./images/wheel2.png)
+
+Three new folders were created, `add.egg-info`, `build` and `dist`.
+
+#### dist
+
+The `dist` folder is the output directory where the wheel distribution is created, in this example the wheel is called `add-1.0-py3-none-any.whl`. The wheel name can be broken down from the `-` seperation.
+
+1. `add`
+    The text `add` is the name and was specified from `name='add'`
+2. `1.0`
+    This is the version specified from `version='1.0'`
+3. `py3`
+    This indicates that the wheel distribution is compatible with Python 3.x versions. The number after py represents the specific major version of Python that the wheel is compatible with. In this case, `py3` indicates compatibility with Python 3.
+4. `none`
+    The `none` tag signifies that the wheel distribution does not contain any platform-specific components or extensions. It is a pure Python package that does not rely on any platform-specific functionality. Pure Python packages can be installed and used on any platform without requiring any platform-specific compilation or dependencies.
+5. `any`
+    The `any` tag further emphasizes that the wheel distribution is platform-independent and can be installed on any platform that supports the specified Python version.
+
+By including this compatibility tag in the wheel name, it provides information to `pip` and other package management tools about the supported Python version and platform, making it easier for users to identify the appropriate distribution for their environment.
+
+#### build
+
+The `build` folder is generated as a temporary directory during the build process, and its purpose is to hold the intermediate files and artifacts created during the build process. It is not intended to be used directly by end-users or included in the final distribution of your package.
+
+The `lib` subdirectory within the build directory is where the built files and compiled bytecode of your package are stored during the build process.
+
+The `bdist.win-amd64` subdirectory within the build directory is specific to the Windows operating system and contains any additional built files or temporary files generated during the build process for the Windows platform. In this example it is empty because we only have `.py` files, which is not platform specific.
+
+Once the build process is completed, the build artifacts are used to create the final distribution file(s) (e.g., wheel, source distribution). These distribution files, typically located in the `dist` folder, are the ones intended for distribution, installation, or further packaging.
+
+The purpose of providing the `build` folder is to offer insights into the build process and give you a glimpse of the intermediate files created during the build. It can be helpful for troubleshooting build-related issues or understanding the build process in more detail.
+
+However, for most users, the `build` folder itself is not directly used or manipulated. It is automatically handled by build tools (e.g., setuptools) and typically cleaned up after the build process is completed. The `build` folder can be safely deleted once the build is successful and you have obtained the final distribution file(s) from the `dist` folder.
+
+#### add.egg-info
+
+The `add.egg-info` folder is created during the build process and contains metadata about your package, such as its name, version, author, and dependencies. It is generated based on the information provided in your `setup.py` file. The `.egg-info` directory format is used for distributing Python packages.
+
+The `add.egg-info` folder includes files such as `PKG-INFO`, which contains metadata about the package, and `RECORD`, which is a list of installed files and their checksums. These files are used by `pip` for package management and uninstallation.
+
+## Using the wheel
+
+The wheel `add-1.0-py3-none-any.whl` that was created is what is placed onto any of the PyPi servers that end users can install via `pip`. Here, I will create a sample repository that will utilize the wheel I just created. Here, I created a sample repository called `MyMathUser`.
+
+![](./images/wheel3.png)
+
+To retrieve the wheel I will run the following command,
+
+```
+pip install "C:\Users\Michael\PycharmProjects\MyMath\dist\add-1.0-py3-none-any.whl"
+```
+
+The result of this command will have the addition of our wheel `add` placed into `site-packages` with all of its depdendencies, in this case `numpy`.
+
+![](./images/wheel4.png)
+
+Finally, we can utilize our original function.
+
+`main.py`
+
+```Python
+from add import add
+
+print(add(10, 15))
+```
+
+Keep in mind that `site-packages` is added to the PythonPath, hence when we go `import add`, we are importing the folder from `site-packages` which will run the `__init__` and import the `add` function for us.
+
+# Creating a Flat Structure Wheel
+
+In this example I will create a more flat structure. 
+
+![](./images/wheel5.png)
+
+We first need to modify the `setup.py` file to become,
+
+```Python
+from setuptools import setup
+
+setup(
+    name='add',
+    version='1.0',
+    py_modules=['operations'],
+    packages=[],
+    author='Michael Cowie',
+    description='A simple math package using NumPy',
+    install_requires=['numpy'],
+)
+
+```
+
+Notice here that we are now using `py_modules` instead of `packages`. These two are slightly different,
+
+The `py_modules` parameter is used to specify individual Python modules (`.py` files) that should be included in the distribution. It expects a list of module names (without the file extension). In our case, we only have one module, `operations.py`, so we specify it using py_modules=['operations']. You provide a list of module names as strings to the py_modules attribute, without specifying any directory information. An example could be `py_modules=['module1', 'module2']`. When using `py_modules`, the module files are typically placed in the root directory of the package.
+
+
+The `packages` attribute is used to specify directories containing packages (i.e., multiple .py files organized in a directory structure) that should be included in the distribution. You provide a list of package names as strings to the packages attribute, specifying the package hierarchy using dot notation. An example could be `packages=['package1', 'package1.subpackage']`. When using packages, the package directories and their contents are included in the distribution, preserving the directory structure.
+
+When building the wheel this time one difference is noticed inside the `lib` folder. The `add` folder is missing because we now have a flat structure. This has an implication on the user installing the wheel.
+
+![](./images/wheel6.png)
+
+Now, if I install my wheel from within a new project the `site-packages` will not appear the same as the previous wheel installation.
+
+![](./images/wheel7.png)
+
+It is important to note that when you build and install the wheel distribution, it installs the module directly into the `site-packages` directory **without creating a separate package directory**. Because we did not create a top directory called `add` where all of our code resides, it will place it directly inside `site-packages`. This means we have to change our important to instead be `from operations import add`, as we will not look for the `operations.py` file inside of `site-packages.`
