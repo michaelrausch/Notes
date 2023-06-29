@@ -57,4 +57,4 @@ Thus, a `.pyd` file does not contain code written in Python syntax like a `.py` 
 
 ## Wheels (`.egg`, `.whl`, ...)
 
-Python wheels will typically contain the extension `.egg` and `.whl`. This is explanined further inside of [my existing notes for them](https://github.com/Michael-Cowie/Notes/blob/main/Python/Notes/PyPI_PIP_Wheel.md).
+Python wheels will typically contain the extension `.egg` and `.whl`. This is explained further inside of [my existing notes for them](https://github.com/Michael-Cowie/Notes/blob/main/Python/Notes/PyPI_PIP_Wheel.md).
