@@ -5,7 +5,12 @@ of common file types that I have been exposted to the most when developing with 
 
 ## .py
 
-`.py` files are the standard Python source code files. They contain the actual Python code written in plain text. You write your Python code in `.py` files and execute them using the Python interpreter.
+`.py` files are the standard Python source code files. They contain the actual Python code written in plain text. You write your Python code in `.py` files and execute them using the Python interpreter. An example
+code snippet could be, 
+
+```Python
+print("Hello World")
+```
 
 ## .pyc
 
