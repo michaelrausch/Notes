@@ -14,7 +14,12 @@ print("Hello World")
 
 ## .pyc
 
-`.pyc` files are compiled bytecode files created by the Python interpreter. When a `.py` file is executed, the interpreter compiles the source code into bytecode, which is a lower-level representation of the code. The bytecode is then stored in `.pyc` files for faster execution in subsequent runs. The presence of `.pyc` files helps improve the startup time of Python scripts. If you import a module, python will build a `.pyc` file that contains the bytecode to make importing it again later easier (and faster).
+`.pyc` files are compiled bytecode files created by the Python interpreter. When a `.py` file is executed, the interpreter compiles the source code into bytecode, which is a lower-level representation of the code. The bytecode is then stored in `.pyc` files for faster execution in subsequent runs. The presence of `.pyc` files helps improve the startup time of Python scripts. If you import a module, python will build a `.pyc` file that contains the bytecode to make importing it again later easier (and faster). It contains the compiled version of Python source code, which is platform-independent and can be executed directly by the Python interpreter without the need for further compilation.
+
+It is important to note that the contents of a `.pyc` file are not intended to be human-readable. They are binary files that store the bytecode representation of the corresponding `.py` file. The contents will
+then not open up nicely in a text editor as they do not follow a text based encoding. Opening it will show jumbled text such as ` d dlmZmZ d `.
+
+
 
 ## .pyd
 
