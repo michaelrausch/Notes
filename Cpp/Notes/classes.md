@@ -629,6 +629,37 @@ On the other hand, when the base is publicly inherited, `public` and `protected`
 
 In both cases, the `private` members are not inherited and therefore, the `private` members of a base class will never become the members of its derived class.
 
+# Calling the Base Class Constructor
+
+To call a base class constructor in the member initialization list of a derived class's constructor, use the following syntax,
+
+```C++
+DerivedClass::DerivedClass(parameters) : BaseClass(constructor arguments), member1(initializer), member2(initializer) {
+    // Constructor body
+}
+```
+
+A complete example would be,
+
+```C++
+class BaseClass {
+public:
+    BaseClass(int value) {
+        // Base class constructor logic
+    }
+};
+
+class DerivedClass : public BaseClass {
+public:
+    DerivedClass(int derivedValue, int baseValue) : BaseClass(baseValue), derivedMember(derivedValue) {
+        // Derived class constructor body
+    }
+
+private:
+    int derivedMember;
+};
+```
+
 # Making a `private` Member Inheritable (`protected`)
 
 We have just seen how to increase the capabilities of an existing class without modifying it. We have also seen that a `private` member of a base class cannot be inherited and therefore it is not available for the derived class directly. What do we do if the private data needs to be inherited by a derived class? This can be accomplished by modifying the visibility limit of the `private` member by making it `public`. This would make it accessible to all the other functions of the program, thus taking away the advantage of data hiding.
@@ -705,37 +736,6 @@ class D: visibility Base1, visibility Base2, ...
 ```
 
 where, `visibility` may either be `private`, `public` or `protected`.
-
-# Calling the base class constructor
-
-To call a base class constructor in the member initialization list of a derived class's constructor, use the following syntax,
-
-```C++
-DerivedClass::DerivedClass(parameters) : BaseClass(constructor arguments), member1(initializer), member2(initializer) {
-    // Constructor body
-}
-```
-
-A complete example would be,
-
-```C++
-class BaseClass {
-public:
-    BaseClass(int value) {
-        // Base class constructor logic
-    }
-};
-
-class DerivedClass : public BaseClass {
-public:
-    DerivedClass(int derivedValue, int baseValue) : BaseClass(baseValue), derivedMember(derivedValue) {
-        // Derived class constructor body
-    }
-
-private:
-    int derivedMember;
-};
-```
 
 # Ambiguity Resolution in Inheritance
 
