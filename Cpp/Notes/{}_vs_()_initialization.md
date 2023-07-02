@@ -9,6 +9,8 @@ MyClass a3 = a;
 MyClass a4(a);
 ```
 
+Using `{}` instead of `()` when setting variables is known as brace initialization or uniform initialization. Brace initialization has several characteristics and behaviors that differ from traditional parentheses initialization.
+
 Our focus is on `MyClass a1 {a};`, initializion list using curly braces.
 
 The key beneifts of List initialization using curly braces is that **it does not allow narrowing** (§iso.8.5.4). That is:
