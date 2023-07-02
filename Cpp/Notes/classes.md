@@ -1349,3 +1349,28 @@ Example e = 100;
 ```
 
 is not allowed and illegal. Remember, this form is permitted when the keyword `explicit` is not applied to the conversion.
+
+## Using `default`
+
+```C++
+class MyClass {
+public:
+    // Defaulted copy constructor
+    MyClass(const MyClass& other) = default;
+
+    // Defaulted destructor
+    ~MyClass() = default;
+};
+```
+
+Using the `default` means that you want to use the compiler-generated version of that function, so you don't need to specify a body. You can also use `= delete` to specify that you don't want the compiler to generate that function automatically. When you explicitly define a destructor as `~MyClass() = default;`, you are instructing the compiler to generate the default implementation of the destructor. **This is equivalent to allowing the compiler to implicitly generate the destructor**. The `= default` syntax is simply a way to explicitly request the default behavior.
+
+With the introduction of move constructors and move assignment operators, the rules for when automatic versions of constructors, destructors and assignment operators are generated has become quite complex. Using `= default` and `= delete` makes things easier as you don't need to remember the rules: you just say what you want to happen.
+
+The `~MyClass() = default;` syntax for explicitly defining a default destructor may appear unnecessary since it behaves the same as not defining the destructor at all. However, there are a few reasons why the `= default` syntax can be useful,
+
+1. Clarity and intent
+2. Consistency and readability
+3. Special member function control
+
+While the `= default` syntax may not change the functionality of the default destructor itself, it can have benefits in terms of code clarity, consistency, and control over special member functions.
