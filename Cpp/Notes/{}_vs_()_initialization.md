@@ -88,7 +88,7 @@ In this example, the member initialization list initializes the `memberVariable`
 
 # User Defined-Classes
 
-#### Aggregates
+### Aggregates
 
 If the user-defined type is an aggregate (a class or structure without user-declared constructors, virtual functions, or base classes), brace initialization performs aggregate initialization. Each member of the aggregate is initialized by the corresponding value provided within the braces.
 
@@ -101,7 +101,7 @@ struct Point {
 Point p{10, 20};  // Aggregate initialization
 ```
 
-#### Constructor Matching
+### Constructor Matching
 
 If the user-defined type has user-declared constructors, brace initialization attempts to match the provided values with the constructors of the type. If there is a constructor that matches the provided arguments, it will be used for initialization.
 
@@ -116,7 +116,7 @@ public:
 MyClass obj{10, 20};  // Initialization using matching constructor
 ```
 
-#### Constructor Overload Resolution
+### Constructor Overload Resolution
 
 If there are multiple constructors that can be potentially matched, overload resolution rules will be applied to determine the most appropriate constructor to use.
 
