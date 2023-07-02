@@ -706,6 +706,37 @@ class D: visibility Base1, visibility Base2, ...
 
 where, `visibility` may either be `private`, `public` or `protected`.
 
+# Calling the base class constructor
+
+To call a base class constructor in the member initialization list of a derived class's constructor, use the following syntax,
+
+```C++
+DerivedClass::DerivedClass(parameters) : BaseClass(constructor arguments), member1(initializer), member2(initializer) {
+    // Constructor body
+}
+```
+
+A complete example would be,
+
+```C++
+class BaseClass {
+public:
+    BaseClass(int value) {
+        // Base class constructor logic
+    }
+};
+
+class DerivedClass : public BaseClass {
+public:
+    DerivedClass(int derivedValue, int baseValue) : BaseClass(baseValue), derivedMember(derivedValue) {
+        // Derived class constructor body
+    }
+
+private:
+    int derivedMember;
+};
+```
+
 # Ambiguity Resolution in Inheritance
 
 Occassionally, we may force a problem in using multiple inheritance, when a function with the same name appears in more than one base class, e.g.
