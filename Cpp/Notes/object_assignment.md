@@ -79,3 +79,7 @@ X: 50 Y: 60          // b values
 X: 1 Y: 2            // Change the state of b to become a, via b = a
 0x7ffd07e321d0       // Verify the memory address of b has not changed, after b = a
 ```
+
+A visual difference can be shown as,
+
+![](./images/python_vs_cpp_objects.png)
