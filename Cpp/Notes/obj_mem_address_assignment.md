@@ -1,4 +1,4 @@
-# Assignment operator for objects
+# Memory Address of Objects After Assignment
 
 One key concept of C++ that differs from others is that the `=` operator for assigning objects **never changes the memory address**. This is unlike languages such as Python where the `=` operator can change the memory address of objects. Take the following as an example, 
 
