@@ -52,3 +52,19 @@ Will output,
 ```
 
 However, notice here, that the prefix `b` is missing. This is **not a byte string**. Encoding and decoding are inverse operations. Everything must be encoded before it can be written to disk, and it must be decoded before it can be read by a human. When a string is encoded, its characters are mapped to the corresponding binary representations according to the chosen encoding scheme. This encoded representation can be stored in a file, transmitted over a network, or used for various other purposes. To make use of the encoded string, it needs to be decoded, which involves reversing the process and converting the binary data back into its original character representation.
+
+# Writing Text to a Binary File - What's the difference?
+
+The most important definition of what the word "binary" means come from just a situation where a number can take on one of two values, e.g. `on/off`, `yes/no` and `1/0`. Keep that core definition in mind. We will find a large number of other idiomatic usages of the word "binary" in the computer world, depending on context. As an example, some people will refer to a file representin an executable image (Such as a `.exe`) as simply a "binary".
+
+As an example, some people refer to a file representing an executable image (Such as a `.exe` as simply "a binary").
+
+An often confusing distinction of how sometimes people will talk about a file format as being either "textual" or "binary". Yet, todays computers are based on systems that are always binary. So if "textual" files aren't stored ultimately  as binary bits somewhere, how else would they be stored?
+
+So really what it means for a file format to be labeled as "textual" is to say that it is "stricter about what binary patterns it uses, such that it will only use those patterns which make sense in a certain textual encoding". That's why those files look readable when you load them up in text editors.
+
+So a "textual file format" is a **subset of all file formats**, sometimes when people want to refer to something that is not in that subset of textual files, they will call it a "binary file format".
+
+All you do when you open a file in "textual" vs "binary" mode in C++ is to tell the stream that you are not using only the bit patterns likely to look good in a text editor when loaded. Opening in binary asks for all the bytes to be sent to the file in exactly the same place as were used originally, instead of having it try and take care of cross-platform text-file differences in newline handling "under the hood" as convenience.
+
+Therefore, use 'b' mode to read/write binary data as is without any transformations such as converting newlines to/form platform-specific values  or decoding/encoding text using a character encoding.
