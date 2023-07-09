@@ -4,6 +4,8 @@ Installation (or setup) of a computer program (including device drivers and plug
 
 Installation typically involves code (program) being copied/generated from the installation files to new files on the local computer for easier access by the operating system, creating necessary directories, registering environment variables, providing separate program for un-installation etc. Because code is generally copied/generated in multiple locations, uninstallation usually involves more than just erasing the program folder. For example, registry files and other system code may need to be modified or deleted for a complete uninstallation.
 
+It is important to understand the distinction by the term **build** and **install**. Typically, building refers to the process of creating the `.exe`, which allows execution of the software to run the program. However, this does not organize the files into a complete file structure and setup the program files on a users computer. Installation does not create the `.exe`, but the installation benefits and differences can be explain below.
+
 # Example Installation
 
 Let us take an example of what is happening by installing the [Intel oneAPI runtime](https://www.intel.com/content/www/us/en/developer/articles/tool/compilers-redistributable-libraries-by-version.html). Downloading the 2022 version we obtain the file `w_dpcpp_cpp_runtime_p_2022.2.0.9553.exe`. Running this will perform an installation process as shown below.
