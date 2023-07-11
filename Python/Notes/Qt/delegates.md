@@ -2,7 +2,11 @@
 
 In Qt, delegates are used to customize the appearance and behavior of items in item views such as `QListView`, `QTableView`, and `QTreeView`. They allow you to control how data is displayed and edited within the view. Delegates are particularly useful when you need to display data in a specific format or provide custom editing capabilities.
 
-In PyQt6, delegates are implemented as subclasses of the `QAbstractItemDelegate` class. They provide methods for painting items, editing items, and handling user interactions.
+In PyQt6, delegates are implemented as subclasses of the `QAbstractItemDelegate` class. They provide methods for painting items, editing items, and handling user interactions. In standard views, a delegate renders the items of data. When an item is edited, the delegate communicates with the model directly using model indexes.
+
+One important note here is that the drawing inside `paint` uses the `QApplication.style()`. The object returned here is a `QCommonStyle`. The appearance of UI elements, such as text, is handled by the style system. The painter is responsible for rendering the visual elements on the screen, but the actual drawing of text is typically delegated to the style. The style system in Qt provides a unified way to define and render UI elements across different platforms and themes. It ensures consistent appearance and behavior of UI elements regardless of the underlying platform or visual style. Remember that their is **only one QApplication** object, therefore using this style object to draw will make sure all of our renders are consistent.
+
+![](../images/modelview-overview.png)
 
 To illustrate this with a practical example, I will create the following using a `QTableView`.
 
@@ -105,7 +109,7 @@ Therefore, the crucial understanding here is that the option is responsibility f
 
 Here, the index is a `QModelIndex` and is responsible for holding the data for each row/column combination.
 
-# A Complete Example
+# Different Available Options
 
 When different delegates are utilized in a single View, it is useful to create new delegate classes isntead of nesting `if` statements for each column to return a different option. In this example I will create the following table,
 
@@ -283,3 +287,76 @@ tableView.show()
 
 app.exec()
 ```
+
+# Modifying the Model
+
+The examples previously showed how delegates are used to customize the appearence of each cell. They also have additional available virtual functions to add additional behaviour. Here, I will demonstrate an example using a spin-box that will alter the model data. 
+
+
+For a spin-box, the `paint` method will look similar to this,
+
+```Python
+def paint(self, painter, option, index):
+    spinBoxOption = QStyleOptionSpinBox()
+    spinBoxOption.palette = option.palette
+    spinBoxOption.state = option.state
+    spinBoxOption.rect = option.rect
+    QApplication.style().drawComplexControl(QStyle.ComplexControl.CC_SpinBox, spinBoxOption, painter)
+
+    v = str(index.data(Qt.ItemDataRole.DisplayRole))
+    QApplication.style().drawItemText(painter, option.rect, Qt.AlignmentFlag.AlignCenter, option.palette, True, v)
+```
+
+
+However, in this example I will instead be using the function [openPersistentEditor](https://doc.qt.io/qt-6/qabstractitemview.html#openPersistentEditor). A persistent editor means that the widget returned from `createEditor` will always appear and not only appear when attempting to edit the value. Key parts to know is that the method `setEditorData` will initialize the value, this is more impactful when not using `openPersistentEditor` as it will reiniialize each time we edit, however here it will only be called once. When we complete editing, `setModelData` will be called with the edited `index`. This is where we can update the model to keep the edits.
+
+The final code will be,
+
+
+```Python
+from PyQt6.QtGui import QStandardItem, QStandardItemModel
+from PyQt6.QtWidgets import QApplication, QTableView, QStyledItemDelegate, QSpinBox
+from PyQt6.QtCore import Qt
+
+
+class SpinBoxDelegate(QStyledItemDelegate):
+
+    def createEditor(self, parent, option, index):
+        editor = QSpinBox(parent)
+        editor.setMinimum(-100)
+        editor.setMaximum(100)
+        return editor
+
+    def setEditorData(self, editor, index):
+        value = index.model().data(index, Qt.ItemDataRole.EditRole)
+        editor.setValue(int(value))
+
+    def setModelData(self, editor, model, index):
+        model.setData(index, 2, Qt.ItemDataRole.EditRole)
+
+
+app = QApplication([])
+
+model = QStandardItemModel(4, 1)
+tableView = QTableView()
+tableView.setModel(model)
+
+for row in range(4):
+    item = QStandardItem()
+    item.setData((row + 1) * 25, Qt.ItemDataRole.DisplayRole)
+    model.setItem(row, 0, item)
+
+
+tableView.setItemDelegateForColumn(0, SpinBoxDelegate())
+for row in range(4):
+    index = model.index(row, 0)
+    tableView.openPersistentEditor(index)  # Make the editors always appear
+
+tableView.show()
+
+app.exec()
+```
+
+The final appearance will be,
+
+![](../images/delegates_5.png)
