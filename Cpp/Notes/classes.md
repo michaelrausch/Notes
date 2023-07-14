@@ -897,7 +897,7 @@ class Animal
 class Cat: public Animal
 {
     public:
-        void eat()
+        void eat() override
         {
             cout << "I am eating cat food" << endl;
         }
@@ -916,6 +916,46 @@ int main()
     return 0;
 }
 ```
+
+When inheriting a `virtual` function, it is advised to use the `override` keyword. In the above example, it was utilized as,
+
+```C++
+void eat() override
+{
+    cout << "I am eating cat food" << endl;
+}
+```
+
+The `override` keyword serves two purposes,
+
+1. It shows the reader of the code that "this is a virtual method, that is overriding a virtual method of the base class."
+
+2. The compiler also knows that it's an override, so it can "check" that you are not altering/adding new methods that you think are overrides.
+
+As an example for the latter, 
+
+```C++
+class Base
+{
+  public:
+    virtual int foo(float x) = 0; 
+};
+
+
+class Derived: public Base
+{
+   public:
+     int foo(float x) override { ... } // OK
+};
+
+class Derived2: public Base
+{
+   public:
+     int foo(int x) override { ... } // ERROR, because the parameter type has been changed
+};
+```
+
+In `derived2` the compiler will issue an error for "changing the type". Without override, at most the compiler would give a warning for "you are hiding virtual method by same name".
 
 # Constructors in Derived Class
 
