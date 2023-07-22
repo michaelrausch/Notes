@@ -171,6 +171,34 @@ a[:-3:-1]       # The last two items, reversed. (Start index -1, go backwards, u
 a[-3::-1]       # Everything except the last two items, reversed.
 ```
 
+If we were to create own our exampe of using `__getitem__` it would be as follows,
+
+```Python
+class GetItem:
+
+    def __getitem__(self, item):
+        print(f'Attempting to get: ', item)
+        return self
+
+
+x = GetItem()
+
+"""
+The following will call __getitem__ twice!
+
+Attempting to get:  1
+Attempting to get:  2
+"""
+x[1][2]
+
+"""
+The following will call __getitem__ once!
+
+Attempting to get:  (1, 2)
+"""
+x[1, 2]
+```
+
  ## Series
 
  A Pandas Series is a one-dimensional labeled array that can hold any data type (integer, float, string, etc.). It consists of two main components, the data itself and the index that labels each data point.
