@@ -14,6 +14,10 @@ in pointer arithmatic, what's really happening is,
 a_pointer + (a_number * sizeof(*a_pointer))
 ```
 
+When you have a `T*` and you index from that, you access memory locations as if it contained an array of contiguous elements of `T`.
+
+![](./images/pointer_arithmatic_2.png)
+
 # Pointer Arithmatic and `malloc`
 
 Pointer arithmatic can play an important role in `malloc`. For example if we use `malloc` to store "Hello World",
