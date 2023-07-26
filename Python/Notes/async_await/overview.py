@@ -18,7 +18,7 @@ give control back to the event loop so other functions can be executed. Under th
 for the internal implementation which also relies on generators, primarily the `send` method of generators.
 
 Ideally, you want to utilize asynchronous programming when your script has I/O operations, where are are "waiting" for 
-responses that are out of our control and give us the ability to perform other tasks while waiting. Yo do not want to 
+responses that are out of our control and give us the ability to perform other tasks while waiting. You do not want to 
 use asynchronous code when you need a simple script with little to no I/O. Mixing `asyncio` with UI frameworks can be
 a little tricky as `asyncio` will have its own event loop and so will other UI framework. Let us suppose we are mixing
 `asyncio` and `tkinter`, running both event loops at the same time is a dubious proposition, but of course, can be done
