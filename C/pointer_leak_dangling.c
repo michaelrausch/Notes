@@ -12,7 +12,7 @@
     be permanetely used each time. This is called, a memory leak.
 */
 
-void f(){
+void f() {
     int* ptr = malloc(sizeof(int));
     /* Continued code */
 }

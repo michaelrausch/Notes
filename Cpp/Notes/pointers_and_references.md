@@ -170,9 +170,9 @@ Here, both `p` and `q` are **null pointers**, meaning that they explicitly point
 int * r = NULL;
 ```
 
-## Pointers passed to a function
+## Pointers to a function
 
-C++ allows operations with pointers to functions. The typical use of this is for passing a function as an argument to another function. Pointers to functions are declared with the same syntax as a regular function declaration, except that the name of the function is enclosed between parentheses () and an asterisk (*) is inserted before the name,
+C++ allows operations with pointers to functions. The typical use of this is for passing a function as an argument to another function. Pointers to functions are declared with the same syntax as a regular function declaration, except that the name of the function is enclosed between parentheses `()` and an asterisk `(*)` is inserted before the name. The act of calling it performs the dereference, therefore we do not need to dereference it to call the function.
 
 ```C++
 #include <iostream>
@@ -195,7 +195,25 @@ int main()
 
 ## Passing a pointer to a function
 
-Pointers are stored on the heap, not the stack. This means if we dereference the passed pointer to a function TODO
+Pointers are stored on the heap, not the stack. This means if we dereference the passed pointer to a function we change the value in the memory, i.e. if we change the value inside a function, it will change it to any variable that points to the same memory location that is outside of the local stack.
+
+```C++
+int change_to_5(int *p)
+{
+    return *p = 5;
+}
+
+int main()
+{
+    int a = 100;
+    cout << a << endl;
+    change_to_5(&a);
+    cout << a << endl;
+    return 0;
+}
+```
+
+Hence, the value of `a` is changed to `5` after passing the memory address location to `change_to_5`.
 
 # References
 
@@ -223,6 +241,7 @@ int main()
 
 Similar to pointers, if the parameter to the function is passed as a reference, changing the parameter will change the value outside of the function, **it is not a change to the local stack**. When passing a variable to the function that is receiving it as a reference variable, you do not need to do anything specific, for example if it was a pointer you may need to utilize the address-of operator (&).
 
+
 ```C++
 #include <iostream>
 
@@ -240,7 +259,147 @@ int main()
     return 0;
 }
 ```
+## Function returning a reference
+
+A function can also return a reference.
+
+```C++
+int & max(int &x, int &y)
+{
+    if (x > y)
+        return x;
+    else
+        return y;
+}
+```
+
+Since the return type of `max()` is `int &`, the function returns a reference to `x` or `y` (and **NOT the values**). Then a function call such as `max(a, b)` will yield a reference to either `a` or `b` depending on their values. This means that this function call can appear on the left-hand side of an assignment statement, e.g. `max(a, b) = -1;` is legal and assigns `-1` to `a` if it is larger, otherwise `-1` to `b`.
 
 
 
 # Key Differences
+
+1. A pointer **can be re-assigned**
+
+```C++
+int x = 5;
+int y = 6;
+int *p;
+p = &x;
+p = &y;
+*p = 10;
+assert(x == 5);
+assert(y == 10);
+```
+
+A reference **cannot be re-bound** and must be **bound at initialization**.
+
+```C++
+int x = 5;
+int y = 6;
+int &q; // error
+int &r = x;
+```
+
+2. A pointer variable has its own identity. A pointer has a distinct, visible memory address that can be taken with the unary `&` operator and a certain amount of space that can be measured with the `sizeof` operator. Using those operators on a reference returns a value corresponding to whatever the reference is bound to; the references own address and size are invisible. Since the reference assumes the identity of the original variable in this way, it is convenient to think of a reference as another name for the same variable.
+
+```C++
+int x = 0;
+int &r = x;
+int *p = &x;
+int *p2 = &r;
+
+assert(p == p2); // &x == &r
+assert(&p != &p2);
+```
+
+3. You can have arbitrarily nested pointers to pointers offering extra levels of indirection. References only offer one level of indirection.
+
+```C++
+int x = 0;
+int y = 0;
+int *p = &x;
+int *q = &y;
+int **pp = &p;
+
+**pp = 2;
+pp = &q; // *pp is now q
+**pp = 4;
+
+assert(x == 2);
+assert(y == 4);
+```
+
+4. A pointer can be assigned `nullptr`, whereas a reference must be bound to an existing object. If you try hard enough, you can bind a reference to a `nullptr`, but this is undefined and will not behave consistently. You can, however, have a reference to a pointer whose value is `nullptr`.
+
+5. Pointers can iterate over an array, you can use `++` to go to the next item that a pointer is pointing to, and `+4` to go to the 5th element. This is no matter what size the object is that the pointer points to.
+
+6. A pointer needs to be dereferenced with `*` to access the memory location it points to, whereas a reference can be used directly. A pointer to class/struct uses `->` to access its members whereas a reference uses a `.`.
+
+7. References cannot be put into an array, whereas points can be.
+
+8. Const references can be bound to temporaries. Pointers cannot (not without some indirection):
+
+```C++
+const int &x = int(12); // legal C++
+int *y = &int(12); // illegal to take the address of a temporary.
+``` 
+This makes `const &` more convenient to use in argument lists and so forth.
+
+
+# Using Pointerss with Arrays and Strings
+
+Pointers are one of the efficient tools to access elements of an array. Pointers are useful to allocate arrays dynamically, i.e. we can decide the array size at run time. To achieve this, we can use functions, namely `malloc()` and `calloc()`.
+
+In general, there are some differences between pointers and arrays. **Arrays refer to a block of memory space, whereas pointers do not refer to any sectin of memory**. The memory addresses of arrays cannot be changed, whereas the content of the pointers variable, such as the memory addresses that it refers to, can be changed.
+
+Note: There is no error checking of array bounds in C++ Suppose we declare an array of size 25. The compiler issues no warnings if we attempt to access the 26th element. It is the programmers task to check the array limits.
+
+
+We can declare the pointers to arrays as follows:
+
+```C++
+int* nptr;
+nptr = numbers[0]
+```
+
+or 
+
+```C++
+nptr = number;
+```
+
+Keep in mind that `nptr` is an implicit conversion and equivalent to,
+
+```C++
+nptr = &number[0]
+```
+
+A pointer does not point to an array, it will always point to an element in the array, not the array itself.
+
+
+# Pointer Expressions and Pointer Arithmatic
+
+There are a substantial number of arithmatic operators that can be performed with pointers. C++ allows poiinters to perform the following arithmatic operations,
+
+- A pointer can be incremented with `++` and decremented with `--`
+- Any integer can be added to or subtracted from a pointer
+- One pointer can be subtracted from another
+
+Here, the pointer `aptr` refers to the base address of the variable `a`.
+
+```C++
+int a[6];
+int* aptr = &a[0];
+```
+
+We can increment the pointer variable from here, e.g.
+
+```C++
+aptr++;
+aptr--;
+```
+
+This statement moves the pointer to the next memory address and then subsequentally brings it back.
+
+We cannot perform pointer arithmatic on variables which are not stored in contiguous memory locations.

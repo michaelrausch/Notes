@@ -1,0 +1,116 @@
+\documentclass[12pt]{article}
+
+\title{Dot Product}
+\date{}
+
+\usepackage{graphicx} % LaTeX package to import graphics
+\graphicspath{{Math/linear_algebra/images}} % Configuring the graphicx package
+
+\usepackage[a4paper, margin=1.5cm, footskip=.5cm]{geometry}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{parskip}
+\usepackage{tocloft}
+\usepackage{float}
+
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % Adds dots to TOC
+\setcounter{secnumdepth}{0} % sections are level 1
+
+
+% Set all sections to have centered headings
+\usepackage{titlesec}
+\titleformat{\section}  % which section command to format
+    {\centering\fontsize{17}{19}\bfseries} % format for whole line
+    {\thesection} % how to show number
+    {1em} % space between number and text
+    {} % formatting for just the text
+    [] % formatting for after the text
+% --------------------------------------------
+
+
+% Macro to reduce code repetition
+%
+% \NewDocumentCommand{\macroname}{argument specifiers}{%
+%     expansion code
+% }
+% 
+% "m" is a standard mandatory argument, which can be a single token or multiple tokens surrounded by {}
+% "o" is a standard optional argument, it will supply -NoValue- marker if not given
+% "O", given as O{(default)}, is like "o" but returns default if no valus is given
+% "v" reads an argument ‘verbatim’
+
+\NewDocumentCommand{\Vector}{ m m}{%
+    \ensuremath{%
+        \begin{bmatrix}
+                #1 \\ 
+                #2
+        \end{bmatrix}
+    }
+}
+
+\NewDocumentCommand{\VectorThree}{ m m m}{%
+    \ensuremath{%
+        \begin{bmatrix}
+                #1 \\ 
+                #2 \\
+                #3 
+        \end{bmatrix}
+    }
+}
+
+\NewDocumentCommand{\InlineFigure}{ O{0.70\textwidth} O{0.35\textwidth} m m v }{%
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=#1, height=#2]{#5}
+        \caption{#3}
+        \label{#4}
+    \end{figure}
+}
+\begin{document}
+    \maketitle
+
+The dot product between two vectors is based on the projection of one vector onto another. Let's imagine we have two vectors $a$ and $b$ and we want to calculate how much of $a$ is pointing in the same direction as the vector $b$. We want a quantity that would be positive if the two vectors are pointing in similar directions, zero if they are perpendicular and negative if the two vectors are pointing in nearly opposite directions. We will define the dot product between the vectors to capture these quantities.
+
+But first, notice that the question \textbf{how much of $a$ is pointing in the same direction as the vector $b$} does not have anything to do with the \textbf{magnitude} (or length) of $b$. It is based only on its \textbf{direction}. (Recall that a vector has a magnitude and a direction). The answer to this question should \textbf{not} depend on the magnitude of $b$, only its direction. To sidestep any confusion caused by the magnitude of $b$, let's scale the vector so that it has length one. In other words, let's replace $b$ with the unit vector that points in the same direction as $b$. We'll call this vector $u$, which is defined by;
+
+\begin{center}
+    $u$ = $\frac{b}{\| b \|}$
+\end{center}
+
+The dot product of $a$ with unit vector $u$, denoted $a \cdot u$, is defined to be the projection of $a$ in the direction of $u$, or the amount that $a$ is pointing in the same direction as the unit vector $u$.
+
+Let's assume for a moment that $a$ and $u$ are pointing in similar directions. Then, you can imagine $a \cdot u$ as the length of the shadow of $a$ onto $u$ if their tails were together and the sun was shining from a direction perpendicular to $u$. By forming a right angle triangle with $a$ and this shadow, you can use geometry to calculate that;
+
+\begin{center}
+    $a \cdot u$ = $\|a\| \cos(\theta)$
+\end{center}
+
+where $\theta$ is the angle between $a$ and $u$
+
+\InlineFigure{Dot Product}{fig1}{dot_product_1.png}
+
+If $a$ and $u$ were perpendicular, there would be no shadow. That corresponds to the case when $\cos(\theta) = \cos(\frac{\pi}{2})$ = $0$ and therefore $a \cdot u$ = $0$. If the angle $\theta$ between $a$ and $u$ were larger than $\frac{\pi}{2}$, then the shadow wouldn't hit $u$. Since in this case $\cos(\theta) < 0$, the dot product $a \cdot u$ is also negative.
+
+We need to get back to the dot product $a \cdot u$, where $b$ may have a magnitude different than one. This dot product $a \cdot u$ should depend on the magnitude of both vectors, $\| a \|$ and $\| b \|$, and be symmetric in those vectors. Hence, we don't want to define $a \cdot u$ to be exactly the projection of $a$ on $b$, we want it to reduce to this projection for the case when $b$ is a unit vector. 
+
+We can accomplish this very easily, simply plug the definition $u$ = $\frac{b}{\| b \|}$ into our dot product definition of equation. This leads to the definition that the dot product $a \cdot u$, divided by the magnitude $\| b \|$ of $b$, is the projection of $a$ onto $b$;
+
+\begin{center}
+    $a \cdot u$ = $\| a \| \cos(\theta)$
+    
+    $\frac{a \cdot b}{\| b \|}$ = $\| a \| \cos(\theta)$
+\end{center}
+
+Which is later arranged to become,
+
+\begin{center}
+    $a \cdot b$ = $\| a \| \| b \| \cos(\theta)$
+\end{center}
+
+The picture of the geometric interpretation of $a \cdot b$ is almost identical to the previous picture for $a \cdot u$. We just have to remember that we have to divide through by $\| b \|$ to get the projection of $a$ onto $b$
+
+\InlineFigure{Dot Product using $\frac{b}{\| b \|}$}{fig2}{dot_product_2.png}
+
+So, to sum up, on the surface, the dot product is a very useful geometric tool for understanding projections and for testing whether or not vectors tend to point in the same direction.
+
+\end{document}

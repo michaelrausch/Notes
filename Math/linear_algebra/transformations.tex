@@ -1,0 +1,198 @@
+\documentclass[12pt]{article}
+
+\title{Linear Algebra Transformations}
+\date{}
+
+\usepackage{graphicx} % LaTeX package to import graphics
+\graphicspath{{Math/linear_algebra/images}} % Configuring the graphicx package
+
+\usepackage[a4paper, margin=1.5cm, footskip=.5cm]{geometry}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{parskip}
+\usepackage{tocloft}
+\usepackage{float}
+
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % Adds dots to TOC
+\setcounter{secnumdepth}{0} % sections are level 1
+
+
+% Set all sections to have centered headings
+\usepackage{titlesec}
+\titleformat{\section}  % which section command to format
+    {\centering\fontsize{17}{19}\bfseries} % format for whole line
+    {\thesection} % how to show number
+    {1em} % space between number and text
+    {} % formatting for just the text
+    [] % formatting for after the text
+% --------------------------------------------
+
+
+% Macro to reduce code repetition
+%
+% \NewDocumentCommand{\macroname}{argument specifiers}{%
+%     expansion code
+% }
+% 
+% "m" is a standard mandatory argument, which can be a single token or multiple tokens surrounded by {}
+% "o" is a standard optional argument, it will supply -NoValue- marker if not given
+% "O", given as O{(default)}, is like "o" but returns default if no valus is given
+% "v" reads an argument ‘verbatim’
+
+\NewDocumentCommand{\Vector}{ m m}{%
+    \ensuremath{%
+        \begin{bmatrix}
+                #1 \\ 
+                #2
+        \end{bmatrix}
+    }
+}
+
+\NewDocumentCommand{\VectorThree}{ m m m}{%
+    \ensuremath{%
+        \begin{bmatrix}
+                #1 \\ 
+                #2 \\
+                #3 
+        \end{bmatrix}
+    }
+}
+
+\NewDocumentCommand{\InlineFigure}{ O{0.70\textwidth} O{0.35\textwidth} m m v }{%
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=#1, height=#2]{#5}
+        \caption{#3}
+        \label{#4}
+    \end{figure}
+}
+\begin{document}
+    \maketitle
+
+    \tableofcontents
+
+\newpage
+
+\section{Basis vectors}
+
+Before we begin our exploration into transformations their are some previous components which are crucial to understand. First, let us understand the \textbf{basis vector}.
+
+Now, I imagine that vector coordinates were already familiar with us, described in fundamentals.tex. However, theres another interesting way to think about these coordinates, which is central to linear algebra. When you have a pair of numbers meant to describe a vector, like \Vector{3}{-2}, I want you to think of each coordinate as a scaler, meaning think about how each one stretches or squishes vectors.
+
+In the $xy-coordinate$ system, there are two special vectors. The one points to the right with length 1, common called "i hat" $\hat{i}$ or "the unit vector in the $x-direction$".
+
+The other is pointing straight up with length 1, commonly called "j hat" $\hat{j}$ or  "the unit vector in the $y-direction$". Now, think of the x-ordinate as a scalar that scales $\hat{i}$, stretching it by a factor of 3. and the y-coordinate as a scalar that scales $\hat{j}$, flipping it and stretching it by a factor of 2.
+
+\InlineFigure{i j vectors}{fig1}{transformations_1.png}
+
+In this sense, the vector that these coordinates describe is the sum of two scaled vectors. This idea of adding together two scales vectors is a surprisingly important concept. Those two vectors $\hat{i}$ and $\hat{j}$, have a special name. Together they are called the \textbf{basis vectors} of the coordinate system. What this means is that when you think about coordinates as scalars, the basis vectors are what those scalars actually scale.
+
+\InlineFigure{scaling i j vectors}{fig2}{transformations_2.png}
+
+There is also a more technical definition of basis vectors, but we'll get into that later. Framing our familiar coordinate system in terms of these two special basis vector raises an interesting and subtle point, we could choose a different pair of basis vectors and get a perfectly reasonable new coordinate system.
+
+\section{Linear combination}
+
+In mathematics, a linear combination is an expression constructed from a set of terms by multiplying each term by a constant and adding the results (e.g. A linear combination of $x$ and $y$ would be any expression of the term $ax + by$ where $a$ and $b$ are constants).
+
+Suppose we have the following vectors,
+
+$\vec{v_1}$ = \VectorThree{1}{2}{3} $\vec{v_2}$ = \VectorThree{3}{5}{1} $\vec{v_3}$ = \VectorThree{0}{0}{8}
+
+The vector $\vec{x}$ = \VectorThree{2}{3}{-6} is a linear combination of $\vec{v_1}$, $\vec{v_2}$ and $\vec{v_3}$. We can show this by showing you how to combine the vectors using addition and scalar multiplication such that the result is the vector $\vec{x}$.
+
+-1\VectorThree{1}{2}{3} + 1\VectorThree{3}{5}{1} + $\frac{-1}{2}$\VectorThree{0}{0}{8} = \VectorThree{2}{3}{-6}
+
+or again, equivalent
+
+$\vec{x}$ = $-1\vec{v_1}$ + $1\vec{v_2}$ + $\frac{-1}{2}\vec{v_3}$
+
+Of course, we could keep going for a long time as there are a lot of different choices for the scalars and way to combine the three vectors. In general, the set of all linear combinations of these three vectors would be referred to as their \textbf{span}. This would be written as $Span(\vec{v_1}, \vec{v_2}, \vec{v_3})$.
+
+\section{Linear transformations}
+
+To start, let's just parse this term "linear transformation". Transformation is essentially a fancy word for "function". It's something that takes in inputs and spits out an output for each one.
+
+\InlineFigure{Function diagram}{fig3}{transformations_3.png}
+
+Specifically in the context of linear algebra, we like to think about transformations that take in some \textbf{vector} and spits out \textbf{another vector}
+
+\InlineFigure{Function diagram}{fig4}{transformations_4.png}
+
+So why use the word "transformation" instead of "function" if they mean the same thing? Well, it's to be suggestive of a certain way to visualize this input-output relation. The word "transformation" suggests that you think using \textbf{movement}. A great way to understand functions of vectors is to use movement.
+
+If a transform takes some input vector and outputs some vector, we imagine that input vector moving over to the output vector. Linear algebra limits itself to a special type of transform, ones that are easier to understand, called "linear transformations". Visually speaking, a transformation is \textbf{linear} if it has two properties:
+
+\begin{itemize}
+    \item All lines must remain lines, without becoming curved.
+    \item The origin must \textbf{remain fixed} in place
+\end{itemize}
+
+\InlineFigure{Vector transformation}{fig5}{transformations_5.png}
+
+In general, you should think of linear transformations as keeping grid lines parallel and evenly spaced. Some linear transformations are simple to think about, like rotations about the origin.
+
+\InlineFigure{$45^{\circ}$ rotation}{fig6}{transformations_6.png}
+
+\section{Numerically expressed transformations}
+
+What formula do you give the computer so that if you give it the coordinates of a vector, it can give you the coordinates of where that vector lands?
+
+\begin{center}
+    \Vector{$x_{in}$}{$y_{in}$} $\longrightarrow$ ??? $\longrightarrow$ \Vector{$x_{out}$}{$y_{out}$}
+\end{center}
+
+It turns out that you only need to record where the two basis vectors $\hat{i}$ and $\hat{j}$ each land, and everything else will follow from that.
+
+\InlineFigure{Basis vector scaling}{fig7}{transformations_7.png}
+
+If we place some transformation and follow where all three of these vectors go the property that grid lines remain parallel and evenly spaced has a really important consequence. The place where $\vec{v}$ lands will be -1 times the vector where $\hat{i}$ landed plus two times the vector where $\hat{j}$ landed.
+
+\InlineFigure{Basis vector scaling}{fig8}{transformations_8.png}
+
+$\therefore$ The transformed $\vec{v}$ is, -1\Vector{1}{-2} + 2\Vector{3}{0} = \Vector{-1 + 6}{2 + 0} = \Vector{5}{2}
+
+The cool part here is that this gives us a technique to deduce where any vectors land, so long as we have a record of where $\hat{i}$ and $\hat{j}$ each land, without needing to watch the transformation itself.
+
+The numeric transformation will become
+
+\begin{center}
+    $\hat{i}$ = \Vector{1}{-2} $\hat{j}$ = \Vector{3}{0}
+\end{center}
+
+\begin{center}
+    \Vector{x}{y} $\longrightarrow$ $x$\Vector{1}{-2} + $y$\Vector{3}{0} = \Vector{1$x$ + 3$y$}{-2$x$ + 0$y$}
+\end{center}
+
+
+This is saying, I give you any vector and you tell me where that vector lands using this formula. What this is saying is that a two dimensional linear transformation is completely described by just four numbers, the two coordinates for where $\hat{i}$ lands and the two coordinates for where $\hat{j}$ lands.
+
+It's common to package these coordinates into a 2 x 2 grid of numbers called a 2 x 2 matrix, where you can interpret the columns as two special vectors where $\hat{i}$ and $\hat{j}$ each land.
+
+\InlineFigure{Basis vectors}{fig9}{transformations_9.png}
+
+If you're given a 2 x 2 matrix describing a linear transformation and some specific vector, if you want to know where that linear transformation takes that vector, you can take the coordinates of that vector and multiply them by the corresponding columns of the matrix, then add together what you get.
+
+This corresponds with the idea of adding the scaled versions of our new basis vectors.
+
+\InlineFigure{Basis vectors}{fig10}{transformations_10.png}
+
+Remember, this matrix is just a way of packaging the information needed to describe a linear transformation. Always remember to interpret that the first column (a, c) as the place where the first basis vector lands and the second column (b, d) as the place where the second basis vector lands.
+
+When we apply this transformation to get some vector \Vector{x}{y}, what do you get?
+
+\InlineFigure{Basis vector multiplication}{fig11}{transformations_11.png}
+
+\section{The determinant}
+
+One thing that turns out to be surprisingly useful for understanding a given transformation is to measure exactly how much a given transformation stretches and squishes things. More specifically, to measure the factor by which the area of a given region increases or decreases.
+
+\InlineFigure{Area scaling}{fig11}{determinant_1.png}
+
+For example, the matrix $\begin{bmatrix} 3 & 0 \\ 0 & 2\end{bmatrix}$ scales $\hat{i}$ by a factor of 3 and scales $\hat{j}$ by a factor of 2. How can we tell the factor by which space gets stretched? Focus your attention on the 1 x 1 square whose bottom sits on $\hat{i}$ and whose left side sits on $\hat{j}$. After the transformation, this turns into a 2 x 3 rectangle.
+
+\InlineFigure{Area scaling}{fig12}{determinant_2.png}
+
+Since this region started with area of size 1, and ended up with an area with 6, we can say the linear transformation has scaled its area by a factor of 6. This special scaling factor, the factor by which a linear transformation changes the area is called \textbf{the determinant} of that transformation.
+
+\end{document}
